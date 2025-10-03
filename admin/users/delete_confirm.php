@@ -6,14 +6,16 @@ include('../../includes/functions.php');
 secure();
 
 if (isset($_GET['delete'])) {
-    $id = intval($_GET['delete']); // sanitize input
-    //Fetch the username
+    $id = intval($_GET['delete']); 
+        //Fetch the username
     $query = "SELECT first, last from users WHERE id = $id LIMIT 1";
     $result = mysqli_query($connect, $query);
      $user = mysqli_fetch_assoc($result);
       $name = $user['first'] . " " . $user['last'];
 } else {
+    set_message("user not found");
     header('Location: users_list.php');
+    
     exit;
 }
 ?>

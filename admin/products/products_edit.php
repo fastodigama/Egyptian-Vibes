@@ -8,32 +8,26 @@ secure();
 
 include('../../includes/header.php');
 
-if(isset($_POST['first'])){
-    $query = 'UPDATE users SET
-                        first=  "'.$_POST['first'].'",
-                        last= "'.$_POST['last'].'",
-                        email= "'.$_POST['email'].'", 
-                        active ="'.$_POST['active'].'"                        
-                        WHERE id = '.$_GET['id'];
+if(isset($_POST['product_title'])){
+    $query = 'UPDATE product SET
+                        product_title=  "'.$_POST['product_title'].'",
+                        product_desc= "'.$_POST['product_desc'].'",
+                        product_price= "'.$_POST['product_price'].'", 
+                        product_stock = "'.$_POST['product_stock'].'",
+                        product_size ="'.$_POST['product_size'].'"                        
+                        WHERE product_id = '.$_GET['product_id'];
     mysqli_query($connect,$query); //execute the query
 
    
 
-    //if new password provided
-
-    if($_POST['password']){
-        $query  = 'UPDATE users SET
-        password = "'.md5($_POST['password']).'"
-        WHERE id = '.$_GET['id'];
-        mysqli_query($connect, $query); //execute the query
-    }
+ 
 
   
 
     
-    set_message('A new user has been updated');
+    set_message('Product has been updated');
 
-   header('Location: users_list.php');
+   header('Location: products_list.php');
     die();
 
 }
@@ -48,8 +42,8 @@ if(isset($_POST['first'])){
 <!-- prepopulate the form with existing user data -->
 <?php
 $query ='SELECT *
-    FROM users
-    WHERE id = '.$_GET['id'].'
+    FROM product
+    WHERE product_id = '.$_GET['product_id'].'
     LIMIT 1';
 
 $result = mysqli_query($connect,$query);
@@ -59,37 +53,40 @@ $record = mysqli_fetch_assoc($result);
 
 <form action="" method="POST">
     <div>
-        First
-        <input type="text" name="first" value="<?php echo $record['first']; ?> ">
+        Title:
+        <input type="text" name="product_title" value="<?php echo $record['product_title']; ?> ">
     </div>
     <div>
-        Last
-        <input type="text" name="last" value="<?php echo $record['last']; ?>">
+        Description
+        <input type="text" name="product_desc" value="<?php echo $record['product_desc']; ?>">
     </div>
     <div>
-        Email
-        <input type="text" name="email" value="<?php echo $record['email']; ?>">
+        Price:
+        <input type="text" name="product_price" value="<?php echo $record['product_price']; ?>">
     </div>
+    
     <div>
-        Password:
-        <input type="password" name="password">
-    </div>
-    <div>
-        Active:
-        <select name="active">
+        Size:
+        <select name="product_size">
         <?php
 
-        $values = array('Yes', 'No');
+        $values = array('S', 'M','L','XL','XXL');
         foreach($values as $key => $value)
         {
            echo '<option value="'. $value .'"';
-           if($record['active'] ==$value) echo 'selected';
+           if($record['product_size'] ==$value) echo 'selected';
             echo '>'.$value.'</option>';
         }
 
         ?>
         </select>
     </div>
+
+    <div>
+        Stock:
+        <input type="number" name="product_stock" value="<?php echo $record['product_stock']; ?>">
+
+    </div>
     <input type="submit" value="update User">
-    <a href="users_list.php"><button type="button">Cancel</button></a>
+    <a href="products_list.php"><button type="button">Cancel</button></a>
 </form>

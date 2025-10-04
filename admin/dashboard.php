@@ -8,6 +8,7 @@ secure();
 
 
 ?>
+<link rel="stylesheet" href="../css/style.css">
 <body>
     <div>
          <h1>Egyptian Vibes Admin</h1>
@@ -17,7 +18,7 @@ secure();
 </div>
 <h2> Dashboard </h2>
 
-<a href="projects.php">Manage Products</a>
+<a href="products/products_list.php">Manage Products</a>
 <a href="users/users_list.php">Manage Users</a>
 
 <?php

@@ -9,7 +9,7 @@ secure();
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']); 
         //Fetch the username
-    $query = "SELECT product_title from product WHERE product_id = $id LIMIT 1";
+    $query = "SELECT product_title from product WHERE product_id = {$id} LIMIT 1";
     $result = mysqli_query($connect, $query);
      $product = mysqli_fetch_assoc($result);
      $product_name= $product['product_title'];

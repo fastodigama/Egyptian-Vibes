@@ -58,7 +58,7 @@ $record = mysqli_fetch_assoc($result);
     </div>
     <div>
         Description
-        <input type="text" name="product_desc" value="<?php echo $record['product_desc']; ?>">
+        <textarea name="product_desc"><?php echo $record['product_desc']; ?></textarea>
     </div>
     <div>
         Price:
@@ -87,6 +87,6 @@ $record = mysqli_fetch_assoc($result);
         <input type="number" name="product_stock" value="<?php echo $record['product_stock']; ?>">
 
     </div>
-    <input type="submit" value="update User">
+    <input type="submit" value="update Product">
     <a href="products_list.php"><button type="button">Cancel</button></a>
 </form>

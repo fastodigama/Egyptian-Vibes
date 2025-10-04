@@ -26,4 +26,16 @@ function get_message(){
     }
 }
 
+function generateSKU($title) {
+    // Remove spaces and special characters, take first 5 letters
+    $prefix = strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $title), 0, 5));
+
+    // Add current date in YYYYMMDD format
+    $date = date('Ymd');
+
+    // Combine for SKU
+    return $prefix . '-' . $date;
+}
+
+
 ?>

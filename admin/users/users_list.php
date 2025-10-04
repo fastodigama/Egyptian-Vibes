@@ -4,14 +4,7 @@ include('../../includes/config.php');
 include('../../includes/database.php');
 include('../../includes/functions.php');
 secure();
-if(isset($_GET['delete'])){
-    $query = 'DELETE FROM users
-    WHERE id = '.$_GET['delete'].'
-    LIMIT 1';
-    mysqli_query($connect, $query);
-    set_message('USer has been deleted');
-    header('Location: users_list.php');
-}
+
 include('../../includes/header.php');
 
 

@@ -45,7 +45,7 @@ $result = mysqli_query($connect, $query);
             <td> No Photo yet</td>
 
             <td>
-                <a href="products_edit.php?id=<?php echo $record['product_id']; ?>">Edit</a>
+                <a href="products_edit.php?product_id=<?php echo $record['product_id']; ?>">Edit</a>
                 <a href="delete_confirm.php?delete=<?php echo $record['product_id']; ?>">Delete</a>
             </td>
     </tr>

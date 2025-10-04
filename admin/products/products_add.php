@@ -42,7 +42,7 @@ if(isset($_POST['product_title'])){
     </div>
     <div>
         Description:
-        <textarea name="product_desc"><?php echo $record['product_desc']?> </textarea>
+        <textarea name="product_desc"></textarea>
     </div>
     <div>
         Price:

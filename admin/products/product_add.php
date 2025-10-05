@@ -20,12 +20,39 @@ if (isset($_POST['product_title'])) {
               VALUES ('$title', '$desc', $price, '$sku', '$size', $stock)";
 
     mysqli_query($connect, $query);
+    //categories logic
+
+       // Check if at least one category is selected
+    if (!$_POST['category_ids']) {
+        set_message('Please select at least one category');
+        header('Location: product_add.php');
+        die();
+    }
+    //get the new product id to assign categories to it
+    $product_id = mysqli_insert_id($connect);
+    //insert the record into the joint table
+    if($_POST['category_ids']){
+        foreach($_POST['category_ids'] as $cat_id){
+            $cat_id = (int)$cat_id; //for security
+            $query = "INSERT INTO product_category(product_id,category_id) VALUES ($product_id, $cat_id)";
+
+            mysqli_query($connect,$query);
+        }
+    }
+
+
+
     set_message('A new product has been added');
 
     header('Location: product_list.php');
     die();
 }
 
+//fetching categories
+
+$category_query = "SELECT * FROM category
+ORDER BY category_name ASC";
+$category_result = mysqli_query($connect, $category_query);
 ?>
 
 <h2>Add product</h2>
@@ -58,7 +85,25 @@ if (isset($_POST['product_title'])) {
         Stock:
         <input type="number" name="product_stock">
     </div>
+    <div>
+        <fieldset>
 
+        <legend>Categories (select one or more) </legend>
+        
+        <?php while($category = mysqli_fetch_assoc($category_result)): ?>
+            <div>
+
+            
+            <label>
+                <input type="checkbox" name="category_ids[]" value="<?php echo $category['category_id']; ?>">
+                <?php echo htmlspecialchars($category['category_name'])?>
+            </label>
+            
+    </div>
+
+    <?php endwhile;?>
+    </fieldset>
+</div>
     <input type="submit" value="Add Product">
     <a href="product_list.php"><button type="button">Cancel</button></a>
 </form>

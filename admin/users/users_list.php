@@ -7,15 +7,14 @@ secure();
 
 include('../../includes/header.php');
 
-
 ?>
 
-<h2> Admin Users </h2>
+<h2>Admin Users</h2>
 
 <?php
 
 $query = 'SELECT * FROM users
-        ORDER BY last, first';
+          ORDER BY last, first';
 
 $result = mysqli_query($connect, $query);
 
@@ -28,25 +27,20 @@ $result = mysqli_query($connect, $query);
         <th>Email Address</th>
         <th>Active?</th>
         <th>Actions</th>
-
     </tr>
 
-    <?php while($record = mysqli_fetch_assoc($result)): ?>
-
+    <?php while ($record = mysqli_fetch_assoc($result)): ?>
         <tr>
-            <td> <?php echo $record['first']; ?></td>
-            <td> <?php echo $record['last']; ?></td>
-            <td> <?php echo $record['email']; ?></td>
-            <td> <?php echo $record['active']; ?></td>
-
+            <td><?php echo htmlspecialchars($record['first']); ?></td>
+            <td><?php echo htmlspecialchars($record['last']); ?></td>
+            <td><?php echo htmlspecialchars($record['email']); ?></td>
+            <td><?php echo htmlspecialchars($record['active']); ?></td>
             <td>
-                <a href="users_edit.php?id=<?php echo $record['id']; ?>">Edit</a>
-                <a href="delete_confirm.php?delete=<?php echo $record['id']; ?>">Delete</a>
+                <a href="users_edit.php?id=<?php echo (int)$record['id']; ?>">Edit</a>
+                <a href="delete_confirm.php?delete=<?php echo (int)$record['id']; ?>">Delete</a>
             </td>
-    </tr>
+        </tr>
+    <?php endwhile; ?>
+</table>
 
-        <?php endwhile; ?>
-
-    </table>
-    <a href="users_add.php">Add user</a>
-
+<a href="users_add.php">Add user</a>

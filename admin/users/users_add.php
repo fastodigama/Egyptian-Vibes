@@ -5,31 +5,29 @@ include('../../includes/database.php');
 include('../../includes/functions.php');
 secure();
 
-
 include('../../includes/header.php');
 
-if(isset($_POST['first'])){
-    $query = 'INSERT INTO users(first,last,email,password,active) 
-                            VALUES (
-                            "'.$_POST['first'].'",
-                            "'.$_POST['last'].'",
-                            "'.$_POST['email'].'",
-                            "'.md5($_POST['password']).'",
-                            "'.$_POST['active'].'"                        
-                            )';
+if (isset($_POST['first'])) {
+    // Sanitize inputs
+    $first   = mysqli_real_escape_string($connect, $_POST['first']);
+    $last    = mysqli_real_escape_string($connect, $_POST['last']);
+    $email   = mysqli_real_escape_string($connect, $_POST['email']);
+    $pass    = mysqli_real_escape_string($connect, md5($_POST['password']));
+    $active  = mysqli_real_escape_string($connect, $_POST['active']);
 
-    mysqli_query($connect,$query);
+    $query = "INSERT INTO users (first, last, email, password, active) 
+              VALUES ('$first', '$last', '$email', '$pass', '$active')";
+
+    mysqli_query($connect, $query);
     set_message('A new user has been added');
 
     header('Location: users_list.php');
     die();
-
 }
-
 
 ?>
 
-<h2> Add User </h2>
+<h2>Add User</h2>
 
 <form action="" method="POST">
     <div>
@@ -52,13 +50,10 @@ if(isset($_POST['first'])){
         Active:
         <select name="active">
         <?php
-
         $values = array('Yes', 'No');
-        foreach($values as $key => $value)
-        {
-           echo '<option value="'. $value .'"> '.$value.'</option>';
+        foreach ($values as $value) {
+            echo '<option value="' . htmlspecialchars($value) . '">' . htmlspecialchars($value) . '</option>';
         }
-
         ?>
         </select>
     </div>

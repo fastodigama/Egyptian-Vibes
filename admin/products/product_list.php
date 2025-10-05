@@ -46,7 +46,7 @@ $result = mysqli_query($connect, $query);
     <?php while($record = mysqli_fetch_assoc($result)): ?>
 
         <tr>
-            <td> <?php if($record['thumbnail']): ?><img src="<?php echo $record['thumbnail']; ?>" width="200"><?php endif; ?> </td>
+            <td> <?php if($record['thumbnail']): ?><img src="<?php echo $record['thumbnail']; ?>" width="100"><?php endif; ?> </td>
 
             <td> <?php echo $record['product_title']; ?></td>
             <td> <?php echo $record['product_desc']; ?></td>

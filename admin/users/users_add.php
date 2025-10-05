@@ -63,4 +63,5 @@ if(isset($_POST['first'])){
         </select>
     </div>
     <input type="submit" value="Add User">
+    <a href="users_list.php"><button type="button">Cancel</button></a>
 </form>

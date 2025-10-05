@@ -70,4 +70,5 @@ if(isset($_POST['product_title'])){
 
      
     <input type="submit" value="Add Product">
+    <a href="product_list.php"><button type="button">Cancel</button></a>
 </form>

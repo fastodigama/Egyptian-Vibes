@@ -18,7 +18,7 @@ secure();
 </div>
 <h2> Dashboard </h2>
 
-<a href="products/products_list.php">Manage Products</a>
+<a href="products/product_list.php">Manage Products</a>
 <a href="users/users_list.php">Manage Users</a>
 
 <?php

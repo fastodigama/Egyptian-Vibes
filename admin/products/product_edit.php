@@ -27,7 +27,7 @@ if(isset($_POST['product_title'])){
     
     set_message('Product has been updated');
 
-   header('Location: products_list.php');
+   header('Location: product_list.php');
     die();
 
 }
@@ -88,5 +88,5 @@ $record = mysqli_fetch_assoc($result);
 
     </div>
     <input type="submit" value="update Product">
-    <a href="products_list.php"><button type="button">Cancel</button></a>
+    <a href="product_list.php"><button type="button">Cancel</button></a>
 </form>

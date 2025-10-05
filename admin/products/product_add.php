@@ -25,7 +25,7 @@ if(isset($_POST['product_title'])){
     mysqli_query($connect,$query);
     set_message('A new product has been added');
 
-    header('Location: products_list.php');
+    header('Location: product_list.php');
     die();
 
 }

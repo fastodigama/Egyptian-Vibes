@@ -16,7 +16,7 @@ if (isset($_GET['delete'])) {
       
 } else {
     set_message("user not found");
-    header('Location: products_list.php');
+    header('Location: product_list.php');
     
     exit;
 }
@@ -47,7 +47,7 @@ if (isset($_POST['confirm_delete'])) {
     mysqli_query($connect, $query);
     // Optional: set_message() if you have a flash message system
     set_message("Product has been deleted");
-    header('Location: products_list.php');
+    header('Location: product_list.php');
     exit;
 }
 ?>

@@ -36,6 +36,53 @@ function generateSKU($title) {
     // Combine for SKU
     return $prefix . '-' . $date;
 }
+//image resize
+function resizeImageToBase64($filePath, $maxWidth = 800, $maxHeight = 800, $jpegQuality = 80, $pngCompression = 7) {
+    list($origWidth, $origHeight, $imageType) = getimagesize($filePath);
+
+    // Calculate new dimensions while keeping aspect ratio
+    $ratio = min($maxWidth / $origWidth, $maxHeight / $origHeight);
+    $newWidth  = (int)($origWidth * $ratio);
+    $newHeight = (int)($origHeight * $ratio);
+
+    // Create image resource from file
+    switch ($imageType) {
+        case IMAGETYPE_JPEG: $src = imagecreatefromjpeg($filePath); break;
+        case IMAGETYPE_PNG:  $src = imagecreatefrompng($filePath); break;
+        case IMAGETYPE_GIF:  $src = imagecreatefromgif($filePath); break;
+        default: return false;
+    }
+
+    // Create a new blank image
+    $dst = imagecreatetruecolor($newWidth, $newHeight);
+
+    // Preserve transparency for PNG/GIF
+    if ($imageType == IMAGETYPE_PNG || $imageType == IMAGETYPE_GIF) {
+        imagecolortransparent($dst, imagecolorallocatealpha($dst, 0, 0, 0, 127));
+        imagealphablending($dst, false);
+        imagesavealpha($dst, true);
+    }
+
+    // Copy and resize
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+
+    // Capture output buffer
+    ob_start();
+    switch ($imageType) {
+        case IMAGETYPE_JPEG: imagejpeg($dst, null, $jpegQuality); break; // quality 0–100
+        case IMAGETYPE_PNG:  imagepng($dst, null, $pngCompression); break; // compression 0–9
+        case IMAGETYPE_GIF:  imagegif($dst); break;
+    }
+    $imageData = ob_get_clean();
+
+    // Free memory
+    imagedestroy($src);
+    imagedestroy($dst);
+
+    // Return base64 string
+    $mime = image_type_to_mime_type($imageType);
+    return 'data:' . $mime . ';base64,' . base64_encode($imageData);
+}
 
 
 ?>

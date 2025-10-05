@@ -24,6 +24,7 @@ $result = mysqli_query($connect, $query);
 <table border="1">
     <tr>
         <th>Category</th>
+        <th>Actions</th>
         
 
     </tr>
@@ -31,7 +32,7 @@ $result = mysqli_query($connect, $query);
     <?php while($record = mysqli_fetch_assoc($result)): ?>
 
         <tr>
-            <td> <?php echo $record['category_name']; ?></td>
+            <td> <?php echo htmlspecialchars($record['category_name']); ?></td>
             
 
             <td>

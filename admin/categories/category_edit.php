@@ -9,10 +9,13 @@ secure();
 include('../../includes/header.php');
 
 if(isset($_POST['category_name'])){
-    $query = 'UPDATE category SET
-                        category_name =  "'.$_POST['category_name'].'"
+    $id = (int)$_GET['id']; //convert to int for security
+    $name = mysqli_real_escape_string($connect, $_POST['category_name']);
+    $query = "UPDATE category SET
+                        category_name =  '$name'
                         
-                        WHERE category_id = '.$_GET['id'];
+                        WHERE category_id = $id
+                        LIMIT 1";
     mysqli_query($connect,$query); //execute the query
 
    
@@ -49,7 +52,7 @@ $record = mysqli_fetch_assoc($result);
 <form action="" method="POST">
     <div>
         Category Name
-        <input type="text" name="category_name" value="<?php echo $record['category_name']; ?> ">
+        <input type="text" name="category_name" value="<?php echo htmlspecialchars($record['category_name']); ?> ">
     </div>
     
     <input type="submit" value="update Category">

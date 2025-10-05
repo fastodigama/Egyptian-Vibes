@@ -9,11 +9,12 @@ secure();
 include('../../includes/header.php');
 
 if(isset($_POST['category_name'])){
-    $query = 'INSERT INTO category(category_name) 
+    $name = mysqli_real_escape_string($connect, $_POST['category_name']);
+    $query = "INSERT INTO category(category_name) 
                             VALUES (
-                            "'.$_POST['category_name'].'"
+                           '$name'
                                                
-                            )';
+                            )";
 
     mysqli_query($connect,$query);
     set_message('A new category has been added');

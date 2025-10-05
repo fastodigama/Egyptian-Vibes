@@ -7,7 +7,6 @@ secure();
 
 include('../../includes/header.php');
 
-
 ?>
 
 <h2> Manage products </h2>
@@ -25,7 +24,6 @@ $query = 'SELECT p.*,
 FROM product p
 ORDER BY p.dateAdded';
 
-
 $result = mysqli_query($connect, $query);
 
 ?>
@@ -40,29 +38,31 @@ $result = mysqli_query($connect, $query);
         <th>Size</th>
         <th>Photos</th>
         <th>Actions</th>
-
     </tr>
 
-    <?php while($record = mysqli_fetch_assoc($result)): ?>
-
+    <?php while ($record = mysqli_fetch_assoc($result)): ?>
         <tr>
-            <td> <?php if($record['thumbnail']): ?><img src="<?php echo $record['thumbnail']; ?>" width="100"><?php endif; ?> </td>
+            <td>
+                <?php if ($record['thumbnail']): ?>
+                    <img src="<?php echo htmlspecialchars($record['thumbnail']); ?>" width="100">
+                <?php endif; ?>
+            </td>
 
-            <td> <?php echo $record['product_title']; ?></td>
-            <td> <?php echo $record['product_desc']; ?></td>
-            <td> <?php echo $record['product_price']; ?></td>
-            <td> <?php echo $record['product_stock']; ?></td>
-            <td> <?php echo $record['product_size']; ?></td>
-            <td> <a href="product_photo.php?product_id=<?php echo $record['product_id']; ?>">Photos</a></td>
+            <td><?php echo htmlspecialchars($record['product_title']); ?></td>
+            <td><?php echo htmlspecialchars($record['product_desc']); ?></td>
+            <td><?php echo htmlspecialchars($record['product_price']); ?></td>
+            <td><?php echo (int)$record['product_stock']; ?></td>
+            <td><?php echo htmlspecialchars($record['product_size']); ?></td>
+            <td>
+                <a href="product_photo.php?product_id=<?php echo (int)$record['product_id']; ?>">Photos</a>
+            </td>
 
             <td>
-                <a href="product_edit.php?product_id=<?php echo $record['product_id']; ?>">Edit</a>
-                <a href="delete_confirm.php?delete=<?php echo $record['product_id']; ?>">Delete</a>
+                <a href="product_edit.php?product_id=<?php echo (int)$record['product_id']; ?>">Edit</a>
+                <a href="delete_confirm.php?delete=<?php echo (int)$record['product_id']; ?>">Delete</a>
             </td>
-    </tr>
+        </tr>
+    <?php endwhile; ?>
+</table>
 
-        <?php endwhile; ?>
-
-    </table>
-    <a href="product_add.php">Add Product</a>
-
+<a href="product_add.php">Add Product</a>

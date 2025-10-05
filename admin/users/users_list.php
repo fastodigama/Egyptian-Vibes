@@ -26,8 +26,8 @@ $result = mysqli_query($connect, $query);
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email Address</th>
-        <th>Status</th>
-        <th></th>
+        <th>Active?</th>
+        <th>Actions</th>
 
     </tr>
 

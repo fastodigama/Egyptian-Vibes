@@ -62,8 +62,8 @@ This project enables administrators to manage products, categories, and users ef
 
 ## Technology Stack
 
-- **Backend:** PHP 7.x+
-- **Database:** MySQL / MariaDB
+- **Backend:** PHP
+- **Database:** MySQL
 - **Frontend:** HTML5, CSS3, Bootstrap 5, Bootstrap Icons
 - **Security:** Session-based authentication, input sanitization
 - **Optional Tools:** JSDOM, Fetch (for XML handling, if extended)

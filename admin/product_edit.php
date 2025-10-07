@@ -1,11 +1,11 @@
 <?php
 
-include('../../includes/config.php');
-include('../../includes/database.php');
-include('../../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
 secure();
 
-include('../../includes/header.php');
+include('includes/header.php');
 
 $id = (int)$_GET['product_id'];
 

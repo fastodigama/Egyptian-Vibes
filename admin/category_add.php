@@ -1,12 +1,12 @@
 <?php
 
-include('../../includes/config.php');
-include('../../includes/database.php');
-include('../../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
 secure();
 
 
-include('../../includes/header.php');
+include('includes/header.php');
 
 if(isset($_POST['category_name'])){
     $name = mysqli_real_escape_string($connect, $_POST['category_name']);

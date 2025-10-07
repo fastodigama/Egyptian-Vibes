@@ -1,11 +1,11 @@
 <?php
 
-include('../../includes/config.php');
-include('../../includes/database.php');
-include('../../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
 secure();
 
-include('../../includes/header.php');
+include('includes/header.php');
 
 
 ?>
@@ -37,7 +37,7 @@ $result = mysqli_query($connect, $query);
 
             <td>
                 <a href="category_edit.php?id=<?php echo $record['category_id']; ?>">Edit</a>
-                <a href="delete_confirm.php?delete=<?php echo $record['category_id']; ?>">Delete</a>
+                <a href="category_delete_confirm.php?delete=<?php echo $record['category_id']; ?>">Delete</a>
             </td>
     </tr>
 

@@ -93,7 +93,7 @@ This project enables administrators to manage products, categories, and users ef
 
 ## Security
 
--Session-based authentication with the secure() function.
--Input sanitization using mysqli_real_escape_string and type casting.
--Passwords hashed using MD5.
--Deletion actions require explicit confirmation to prevent accidental data loss.
+- Session-based authentication with the secure() function.
+- Input sanitization using mysqli_real_escape_string and type casting.
+- Passwords hashed using MD5.
+- Deletion actions require explicit confirmation to prevent accidental data loss.

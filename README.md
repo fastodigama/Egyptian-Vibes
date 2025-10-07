@@ -75,7 +75,7 @@ This project enables administrators to manage products, categories, and users ef
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/Egyptian-Vibes.git
+   git clone https://github.com/fastodigama/Egyptian-Vibes.git
 
 2. Import the database schema:
     CREATE DATABASE egyptian_vibes;

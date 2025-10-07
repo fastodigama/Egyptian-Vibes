@@ -1,10 +1,8 @@
 <?php
-
 include('includes/config.php');
 include('includes/database.php');
 include('includes/functions.php');
 secure();
-
 include('includes/header.php');
 
 $id = (int)$_GET['product_id'];
@@ -42,90 +40,100 @@ if (isset($_POST['product_title'])) {
     header('Location: product_list.php');
     die();
 }
-?>
 
-
-<h2>Edit Product</h2>
-
-<?php
-$id = (int)$_GET['product_id'];
+// Fetch product
 $query = "SELECT * FROM product WHERE product_id = $id LIMIT 1";
 $result = mysqli_query($connect, $query);
-$record = mysqli_fetch_assoc($result);
+$product = mysqli_fetch_assoc($result);
 
-if (!$record) {
+if (!$product) {
     set_message("Product not found");
     header('Location: product_list.php');
     die();
 }
-?>
 
+// Fetch categories
+$category_query = "SELECT * FROM category ORDER BY category_name ASC";
+$category_result = mysqli_query($connect, $category_query);
 
-
-<form action="" method="POST">
-    <div>
-        Title:
-        <input type="text" name="product_title" value="<?php echo htmlspecialchars($record['product_title']); ?>">
-    </div>
-    <div>
-        Description:
-        <textarea name="product_desc"><?php echo htmlspecialchars($record['product_desc']); ?></textarea>
-    </div>
-    <div>
-        Price:
-        <input type="text" name="product_price" value="<?php echo htmlspecialchars($record['product_price']); ?>">
-    </div>
-    <div>
-        Size:
-        <select name="product_size">
-        <?php
-        $values = array('S', 'M', 'L', 'XL', 'XXL');
-        foreach ($values as $value) {
-            $selected = ($record['product_size'] === $value) ? 'selected' : '';
-            echo '<option value="'.htmlspecialchars($value).'" '.$selected.'>'.$value.'</option>';
-        }
-        ?>
-        </select>
-    </div>
-    <div>
-        Stock:
-        <input type="number" name="product_stock" value="<?php echo (int)$record['product_stock']; ?>">
-    </div>
-    <?php
-    // Fetch all categories
-    $category_query = "SELECT * FROM category ORDER BY category_name ASC";
-    $category_result = mysqli_query($connect, $category_query);
-
-    // Fetch linked category IDs
-    $linked_query = "SELECT category_id FROM product_category WHERE product_id = $id";
-    $linked_result = mysqli_query($connect, $linked_query);
-    $linked_ids = [];
-    while ($record = mysqli_fetch_assoc($linked_result)) {
-        $linked_ids[] = $record['category_id'];
+// Fetch linked category IDs
+$linked_query = "SELECT category_id FROM product_category WHERE product_id = $id";
+$linked_result = mysqli_query($connect, $linked_query);
+$linked_ids = [];
+while ($row = mysqli_fetch_assoc($linked_result)) {
+    $linked_ids[] = $row['category_id'];
 }
 ?>
-    <div>
-    <fieldset>
-        <legend>Categories (select one or more)</legend>
-        <?php while ($category = mysqli_fetch_assoc($category_result)): ?>
-            <div>
-                <label>
-                    <?php
-                    $checked = '';
-                    foreach ($linked_ids as $linked_id) {
-                        if ($linked_id == $category['category_id']) {
-                            $checked = 'checked';
-                            break;
-                        }
-                    }
-                    ?>
-                    <input type="checkbox" name="category_ids[]" value="<?php echo $category['category_id']; ?>" <?php echo $checked; ?>>
-                    <?php echo htmlspecialchars($category['category_name']); ?>
-                </label>
+
+<div class="container my-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-4">Edit Product</h2>
+
+        <form action="" method="POST">
+            <div class="mb-3">
+                <label for="product_title" class="form-label">Title</label>
+                <input type="text" id="product_title" name="product_title" class="form-control" 
+                       value="<?php echo htmlspecialchars($product['product_title']); ?>" required>
             </div>
-        <?php endwhile; ?>
-    </fieldset>
+
+            <div class="mb-3">
+                <label for="product_desc" class="form-label">Description</label>
+                <textarea id="product_desc" name="product_desc" class="form-control" rows="4"><?php echo htmlspecialchars($product['product_desc']); ?></textarea>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="product_price" class="form-label">Price ($)</label>
+                    <input type="number" step="0.01" id="product_price" name="product_price" class="form-control" 
+                           value="<?php echo htmlspecialchars($product['product_price']); ?>" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="product_size" class="form-label">Size</label>
+                    <select id="product_size" name="product_size" class="form-select" required>
+                        <?php
+                        $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+                        foreach ($sizes as $size) {
+                            $selected = ($product['product_size'] === $size) ? 'selected' : '';
+                            echo "<option value='".htmlspecialchars($size)."' $selected>$size</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="product_stock" class="form-label">Stock</label>
+                    <input type="number" id="product_stock" name="product_stock" class="form-control" 
+                           value="<?php echo (int)$product['product_stock']; ?>" required>
+                </div>
+            </div>
+
+            <fieldset class="mb-4">
+                <legend class="col-form-label fw-bold">Categories (select one or more)</legend>
+                <div class="row">
+                    <?php while ($category = mysqli_fetch_assoc($category_result)): ?>
+                        <div class="col-md-4 mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" 
+                                       id="cat_<?php echo $category['category_id']; ?>" 
+                                       name="category_ids[]" 
+                                       value="<?php echo $category['category_id']; ?>"
+                                       <?php echo in_array($category['category_id'], $linked_ids) ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="cat_<?php echo $category['category_id']; ?>">
+                                    <?php echo htmlspecialchars($category['category_name']); ?>
+                                </label>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            </fieldset>
+
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-success">Update Product</button>
+                <a href="product_list.php" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
-    <input type="submit" value="Update Product">
-    <a href="product_list.php"><button type="button">Cancel</button></a>
-</form>
+
+<?php include('includes/footer.php'); ?>

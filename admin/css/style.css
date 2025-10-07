@@ -20,24 +20,11 @@ body{
     
 }
 
-#header{
-  display: flex;
-  justify-content: space-between;
-  flex-flow: row wrap;
+body{
+  height: 100vh;
 }
 
-a{
-  text-decoration: none;
-  color: white;
-}
 
-.btn-primary{
- background-color: #53D580;
-}
-
-.btn-primary:hover{
-  background-color: #53d5819a;
-}
 
 .confirmation{
   color:#53D580;

@@ -1,29 +1,23 @@
 <?php
 
-include('../includes/config.php');
-include('../includes/database.php');
-include('../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
+include('includes/header.php');
 secure();
 
 
 
 ?>
-<link rel="stylesheet" href="../css/style.css">
-<body>
-    <div>
-         <h1>Egyptian Vibes Admin</h1>
-         <a href="dashboard.php">Dashboard</a> 
-        <a href="logout.php">Logout</a>
-  <hr>  
-</div>
+
 <h2> Dashboard </h2>
 
-<a href="products/product_list.php">Manage Products</a>
-<a href="categories/category_list.php">Manage Categories</a>
-<a href="users/users_list.php">Manage Users</a>
+<a href="product_list.php" class="btn btn-primary">Manage Products</a>
+<a href="category_list.php" class="btn btn-primary">Manage Categories</a>
+<a href="users_list.php" class="btn btn-primary">Manage Users</a>
 
 <?php
-include('../includes/footer.php');
+include('includes/footer.php');
 ?>
 </div>
 

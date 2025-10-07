@@ -1,8 +1,9 @@
 <?php
 
-include('../includes/config.php');
-include('../includes/database.php');
-include('../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
+include('includes/header.php');
 
 if(isset($_POST['email'])){
     $query = 'SELECT  *
@@ -31,7 +32,7 @@ if(isset($_POST['email'])){
 
 
 ?>
-<h1>Egyptian Vibes Admin</h1>
+
 <form action="" method="post">
     <div>
     Email:
@@ -45,10 +46,10 @@ if(isset($_POST['email'])){
 
     </div>
     <div>
-        <input type="submit" value="Login">
+        <input type="submit" value="Login" class="btn btn-primary">
     </div>
 </form>
 
 <?php
-include('../includes/footer.php');
+include('includes/footer.php');
 ?>

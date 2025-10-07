@@ -1,11 +1,10 @@
 <?php
-
-include('../../includes/config.php');
-include('../../includes/database.php');
-include('../../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
 secure();
 
-include('../../includes/header.php');
+include('includes/header.php');
 
 ?>
 
@@ -37,7 +36,7 @@ $result = mysqli_query($connect, $query);
             <td><?php echo htmlspecialchars($record['active']); ?></td>
             <td>
                 <a href="users_edit.php?id=<?php echo (int)$record['id']; ?>">Edit</a>
-                <a href="delete_confirm.php?delete=<?php echo (int)$record['id']; ?>">Delete</a>
+                <a href="user_delete_confirm.php?delete=<?php echo (int)$record['id']; ?>">Delete</a>
             </td>
         </tr>
     <?php endwhile; ?>

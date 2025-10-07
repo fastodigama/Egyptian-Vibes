@@ -1,11 +1,11 @@
 <?php
 
-include('../../includes/config.php');
-include('../../includes/database.php');
-include('../../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
 secure();
 
-include('../../includes/header.php');
+include('includes/header.php');
 
 // Handle photo upload
 if (isset($_FILES['photos'])) {

@@ -1,11 +1,11 @@
 <?php
 
-include('../../includes/config.php');
-include('../../includes/database.php');
-include('../../includes/functions.php');
+include('includes/config.php');
+include('includes/database.php');
+include('includes/functions.php');
 secure();
 
-include('../../includes/header.php');
+include('includes/header.php');
 
 ?>
 
@@ -59,10 +59,10 @@ $result = mysqli_query($connect, $query);
 
             <td>
                 <a href="product_edit.php?product_id=<?php echo (int)$record['product_id']; ?>">Edit</a>
-                <a href="delete_confirm.php?delete=<?php echo (int)$record['product_id']; ?>">Delete</a>
+                <a href="product_delete_confirm.php?delete=<?php echo (int)$record['product_id']; ?>">Delete</a>
             </td>
         </tr>
     <?php endwhile; ?>
 </table>
 
-<a href="product_add.php">Add Product</a>
+<a href="product_add.php" class="btn btn-primary">Add Product</a>

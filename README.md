@@ -35,7 +35,7 @@ This project enables administrators to manage products, categories, and users ef
 
 - **User Authentication**
   - Secure login system with session management.
-  - Passwords hashed using MD5 (consider upgrading to stronger hashing for production).
+  - Passwords hashed using MD5.
 
 - **Product Management**
   - Add, edit, and delete products.

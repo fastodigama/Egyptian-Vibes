@@ -14,7 +14,7 @@ The **Egyptian-Vibes Admin Panel** is a lightweight, PHP-based content managemen
 - [Folder Structure](#folder-structure)
 - [Security](#security)
 - [Contributing](#contributing)
-- [License](#license)
+
 
 ---
 
@@ -97,3 +97,10 @@ This project enables administrators to manage products, categories, and users ef
 - Input sanitization using mysqli_real_escape_string and type casting.
 - Passwords hashed using MD5.
 - Deletion actions require explicit confirmation to prevent accidental data loss.
+
+## Contributing
+
+1. Fork the repository.  
+2. Create a feature branch.  
+3. Make changes and commit with meaningful messages.  
+4. Submit a pull request for review.

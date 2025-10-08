@@ -38,10 +38,10 @@ include('includes/header.php');
                         <td><?php echo htmlspecialchars($record['last']); ?></td>
                         <td><?php echo htmlspecialchars($record['email']); ?></td>
                         <td>
-                            <?php if ($record['active']): ?>
+                            <?php if ($record['active'] === 'Yes'): ?>
                                 <span class="badge bg-success">Yes</span>
                             <?php else: ?>
-                                <span class="badge bg-secondary">No</span>
+                                <span class="badge bg-warning">No</span>
                             <?php endif; ?>
                         </td>
                         <td class="text-center">

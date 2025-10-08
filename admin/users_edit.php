@@ -7,7 +7,35 @@ secure();
 include('includes/header.php');
 
 if (isset($_POST['first'])) {
+
+    //validate inputes
+    $errors = [];
+     // --- First name ---
+    $first = trim($_POST['first'] ?? '');
+    if (empty($first) || !preg_match("/^[a-zA-Z\s]+$/", $first)) {
+        $errors[] = "First name is required and must contain only letters.";
+    }
+
+    // --- Last name ---
+    $last = trim($_POST['last'] ?? '');
+    if (empty($last) || !preg_match("/^[a-zA-Z\s]+$/", $last)) {
+        $errors[] = "Last name is required and must contain only letters.";
+    }
+
+    // --- Email ---
+    $email = trim($_POST['email'] ?? '');
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email address.";
+    }
+
+    // --- Password  ---
+    $password = $_POST['password'] ?? '';
+    if (!empty($password) && strlen($password) < 8) {
+        $errors[] = "Password must be at least 8 characters long.";
+    }
+
     // Sanitize inputs
+    if (empty($errors)) {
     $id     = (int)$_GET['id'];
     $first  = mysqli_real_escape_string($connect, $_POST['first']);
     $last   = mysqli_real_escape_string($connect, $_POST['last']);
@@ -33,6 +61,7 @@ if (isset($_POST['first'])) {
     set_message('User has been updated');
     header('Location: users_list.php');
     die();
+    }
 }
 
 $id = (int)$_GET['id'];
@@ -53,27 +82,36 @@ if (!$record) {
             <h4 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i>Edit User</h4>
         </div>
         <div class="card-body">
-            <form action="" method="POST" class="needs-validation" novalidate>
+                <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <?php foreach ($errors as $error): ?>
+                    <li><?= htmlspecialchars($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+            <form action="" method="POST">
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="first" class="form-label fw-semibold">First Name</label>
                         <input type="text" class="form-control" id="first" name="first" 
-                               value="<?php echo htmlspecialchars($record['first']); ?>" required>
-                        <div class="invalid-feedback">Please enter the first name.</div>
+                               value="<?php echo htmlspecialchars($record['first']); ?>" >
+                        
                     </div>
                     <div class="col-md-6">
                         <label for="last" class="form-label fw-semibold">Last Name</label>
                         <input type="text" class="form-control" id="last" name="last" 
-                               value="<?php echo htmlspecialchars($record['last']); ?>" required>
-                        <div class="invalid-feedback">Please enter the last name.</div>
+                               value="<?php echo htmlspecialchars($record['last']); ?>" >
+                        
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">Email Address</label>
                     <input type="email" class="form-control" id="email" name="email" 
-                           value="<?php echo htmlspecialchars($record['email']); ?>" required>
-                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                           value="<?php echo htmlspecialchars($record['email']); ?>" >
+                    
                 </div>
 
                 <div class="mb-3">
@@ -83,7 +121,7 @@ if (!$record) {
 
                 <div class="mb-4">
                     <label for="active" class="form-label fw-semibold">Active</label>
-                    <select name="active" id="active" class="form-select" required>
+                    <select name="active" id="active" class="form-select" >
                         <?php
                         $values = ['Yes', 'No'];
                         foreach ($values as $value) {

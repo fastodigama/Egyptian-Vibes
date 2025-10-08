@@ -6,74 +6,118 @@ secure();
 include('includes/header.php');
 
 $id = (int)$_GET['product_id'];
+$errors = [];
 
-if (isset($_POST['product_title'])) {
-    // Sanitize inputs
-    $title  = mysqli_real_escape_string($connect, $_POST['product_title']);
-    $desc   = mysqli_real_escape_string($connect, $_POST['product_desc']);
-    $price  = (float)$_POST['product_price'];
-    $stock  = (int)$_POST['product_stock'];
-    $size   = mysqli_real_escape_string($connect, $_POST['product_size']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Update product
-    $query = "UPDATE product SET
-                product_title = '$title',
-                product_desc  = '$desc',
-                product_price = $price,
-                product_stock = $stock,
-                product_size  = '$size'
-              WHERE product_id = $id
-              LIMIT 1";
-    mysqli_query($connect, $query);
+    // --- Title ---
+    $title = trim($_POST['product_title'] ?? '');
+    if (empty($title)) {
+        $errors[] = "Product title is required.";
+    }
 
-    // Update category links
-    mysqli_query($connect, "DELETE FROM product_category WHERE product_id = $id");
+    // --- Description ---
+    $desc = trim($_POST['product_desc'] ?? '');
+    if (empty($desc)) {
+        $errors[] = "Product description is required.";
+    }
 
-    if (!empty($_POST['category_ids'])) {
+    // --- Price ---
+    $price = (float)($_POST['product_price'] ?? 0);
+    if ($price <= 0) {
+        $errors[] = "Price must be greater than 0.";
+    }
+
+    // --- Stock ---
+    $stock = (int)($_POST['product_stock'] ?? -1);
+    if ($stock < 0) {
+        $errors[] = "Stock must be 0 or greater.";
+    }
+
+    // --- Size ---
+    $size = $_POST['product_size'] ?? '';
+    $allowed_sizes = ['S','M','L','XL','XXL'];
+    if (!in_array($size, $allowed_sizes)) {
+        $errors[] = "Invalid product size.";
+    }
+
+    // --- Categories ---
+    if (empty($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
+        $errors[] = "Please select at least one category.";
+    }
+
+    // --- If no errors, update DB ---
+    if (empty($errors)) {
+        $title = mysqli_real_escape_string($connect, $title);
+        $desc  = mysqli_real_escape_string($connect, $desc);
+        $size  = mysqli_real_escape_string($connect, $size);
+
+        $query = "UPDATE product SET
+                    product_title = '$title',
+                    product_desc  = '$desc',
+                    product_price = $price,
+                    product_stock = $stock,
+                    product_size  = '$size'
+                  WHERE product_id = $id
+                  LIMIT 1";
+        mysqli_query($connect, $query);
+
+        // Update category links
+        mysqli_query($connect, "DELETE FROM product_category WHERE product_id = $id");
         foreach ($_POST['category_ids'] as $cat_id) {
             $cat_id = (int)$cat_id;
             mysqli_query($connect, "INSERT INTO product_category (product_id, category_id) VALUES ($id, $cat_id)");
         }
+
+        set_message('Product has been updated');
+        header('Location: product_list.php');
+        die();
+        }
     }
 
-    set_message('Product has been updated');
-    header('Location: product_list.php');
-    die();
-}
+        // Fetch product
+        $query = "SELECT * FROM product WHERE product_id = $id LIMIT 1";
+        $result = mysqli_query($connect, $query);
+        $product = mysqli_fetch_assoc($result);
 
-// Fetch product
-$query = "SELECT * FROM product WHERE product_id = $id LIMIT 1";
-$result = mysqli_query($connect, $query);
-$product = mysqli_fetch_assoc($result);
+        if (!$product) {
+            set_message("Product not found");
+            header('Location: product_list.php');
+            die();
+        }
 
-if (!$product) {
-    set_message("Product not found");
-    header('Location: product_list.php');
-    die();
-}
+        // Fetch categories
+        $category_query = "SELECT * FROM category ORDER BY category_name ASC";
+        $category_result = mysqli_query($connect, $category_query);
 
-// Fetch categories
-$category_query = "SELECT * FROM category ORDER BY category_name ASC";
-$category_result = mysqli_query($connect, $category_query);
+        // Fetch linked category IDs
+        $linked_query = "SELECT category_id FROM product_category WHERE product_id = $id";
+        $linked_result = mysqli_query($connect, $linked_query);
+        $linked_ids = [];
+        while ($row = mysqli_fetch_assoc($linked_result)) {
+            $linked_ids[] = $row['category_id'];
+        }
+    ?>
 
-// Fetch linked category IDs
-$linked_query = "SELECT category_id FROM product_category WHERE product_id = $id";
-$linked_result = mysqli_query($connect, $linked_query);
-$linked_ids = [];
-while ($row = mysqli_fetch_assoc($linked_result)) {
-    $linked_ids[] = $row['category_id'];
-}
-?>
 
-<div class="container my-5">
-    <div class="card shadow-sm p-4">
+    <div class="container my-5">
+     <div class="card shadow-sm p-4">
         <h2 class="mb-4">Edit Product</h2>
+                <?php if (!empty($errors)): ?>
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
         <form action="" method="POST">
             <div class="mb-3">
                 <label for="product_title" class="form-label">Title</label>
                 <input type="text" id="product_title" name="product_title" class="form-control" 
-                       value="<?php echo htmlspecialchars($product['product_title']); ?>" required>
+                       value="<?php echo htmlspecialchars($product['product_title']); ?>" >
             </div>
 
             <div class="mb-3">
@@ -85,12 +129,12 @@ while ($row = mysqli_fetch_assoc($linked_result)) {
                 <div class="col-md-4">
                     <label for="product_price" class="form-label">Price ($)</label>
                     <input type="number" step="0.01" id="product_price" name="product_price" class="form-control" 
-                           value="<?php echo htmlspecialchars($product['product_price']); ?>" required>
+                           value="<?php echo htmlspecialchars($product['product_price']); ?>" >
                 </div>
 
                 <div class="col-md-4">
                     <label for="product_size" class="form-label">Size</label>
-                    <select id="product_size" name="product_size" class="form-select" required>
+                    <select id="product_size" name="product_size" class="form-select" >
                         <?php
                         $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
                         foreach ($sizes as $size) {
@@ -104,7 +148,7 @@ while ($row = mysqli_fetch_assoc($linked_result)) {
                 <div class="col-md-4">
                     <label for="product_stock" class="form-label">Stock</label>
                     <input type="number" id="product_stock" name="product_stock" class="form-control" 
-                           value="<?php echo (int)$product['product_stock']; ?>" required>
+                           value="<?php echo (int)$product['product_stock']; ?>" >
                 </div>
             </div>
 

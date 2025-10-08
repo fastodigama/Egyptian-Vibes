@@ -7,6 +7,41 @@ secure();
 include('includes/header.php');
 
 if (isset($_POST['first'])) {
+
+    //backend validation on inputs for errors
+
+    $errors=[];
+
+    //First name
+
+    $first = trim($_POST['first'] ?? '');
+    if (empty($first) || !preg_match("/^[a-zA-Z\s]+$/", $first)) {
+    $errors[] = "First name is required and must contain only letters.";
+    }
+
+     //last name
+
+    $last = trim($_POST['last'] ?? '');
+    if (empty($last) || !preg_match("/^[a-zA-Z\s]+$/", $last)) {
+    $errors[] = "Last name is required and must contain only letters.";
+    }
+
+    // Email
+    $email = $_POST['email'] ?? '';
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors[] = "Invalid email address.";
+    }
+
+    // Password
+    if (strlen($_POST['password']) < 8) {
+    $errors[] = "Password must be at least 8 characters long.";
+    }
+
+
+    if(empty($errors)){
+
+    
     // Sanitize inputs
     $first   = mysqli_real_escape_string($connect, $_POST['first']);
     $last    = mysqli_real_escape_string($connect, $_POST['last']);
@@ -22,6 +57,7 @@ if (isset($_POST['first'])) {
 
     header('Location: users_list.php');
     die();
+    }
 }
 ?>
 
@@ -31,6 +67,16 @@ if (isset($_POST['first'])) {
             <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Add User</h4>
         </div>
         <div class="card-body">
+            <!-- show php errors if eny -->
+             <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <?php foreach ($errors as $error): ?>
+                    <li><?php echo htmlspecialchars($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
             <form action="" method="POST">
                 <div class="row mb-3">
                     <div class="col-md-6">

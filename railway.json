@@ -1,6 +1,6 @@
 {
   "build": {
-    "builder": "NIXPACKS"
+    "buildCommand": "echo 'No build step needed for PHP'"
   },
   "deploy": {
     "startCommand": "php -S 0.0.0.0:$PORT -t ."

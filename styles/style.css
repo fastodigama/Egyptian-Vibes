@@ -1,0 +1,173 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+min-height: 100vh;
+
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+#header{
+    background-color: black;
+    color: white;
+}
+
+.main-navigation{
+    background-color: white;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.menu{
+    display: flex;
+    width: 100%;
+    list-style: none;
+    
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1em;
+    
+    
+}
+
+.menu li{
+    height: 50px;
+}
+
+.menu li:first-child{
+    margin-right: auto;
+}
+
+.menu a{
+    height: 100%;
+    text-decoration: none;
+    padding: 0 1em;
+    display: flex;
+    align-items: center;
+    color: black;
+}
+
+
+.menu a:hover{
+    background-color: #f0f0f0;
+}
+
+.sidebar{
+    position: fixed;
+    top:0;
+    right: 0;
+    height: 100vh;
+    width:250px ;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow:  -10px 0 10ox rgba(0, 0, 0, 0.1);
+    display:none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+
+}
+
+.sidebar li{
+    width: 100%;
+
+}
+
+.sidebar a{
+    width: 100%;
+}
+
+.menu-button{
+    display: none;
+}
+
+@media(max-width: 800px){
+
+    .hideOnMobile{
+        display: none;
+
+    }
+
+    .menu-button{
+
+        display: block;
+
+    }
+
+}
+
+#main{
+    padding: 1rem 1rem;
+}
+
+/* Products Grid */
+
+.product-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+    justify-content: center;
+    gap: 1rem;
+
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    gap: 0.75rem;
+    
+}
+
+
+
+.product-card h3 {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+}
+
+.product-card p {
+    color: #333;
+    font-weight: 600;
+}
+
+
+.product-card img{
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    object-fit:cover;
+}
+
+.btn{
+    display: inline-block;
+    width:100%;    
+    background-color: #6964F9; 
+    color: #2E2C2C; 
+    text-align: center;
+    line-height: 50px;
+    text-decoration: none;
+    border-radius: 5px; 
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+.btn:hover{
+    background-color: #53D580;
+}
+
+
+@media(max-width: 400px){
+    .sidebar{
+        width: 100%;
+    }
+}

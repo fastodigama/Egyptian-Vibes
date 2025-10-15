@@ -37,7 +37,7 @@ function generateSKU($title) {
     return $prefix . '-' . $date;
 }
 //image resize
-function resizeImageToBase64($filePath, $maxWidth = 800, $maxHeight = 800, $jpegQuality = 80, $pngCompression = 7) {
+function resizeImageToBase64($filePath, $maxWidth = 800, $maxHeight = 800, $jpegQuality = 80, $pngCompression = 7, $webpQuality = 80) {
     list($origWidth, $origHeight, $imageType) = getimagesize($filePath);
 
     // Calculate new dimensions while keeping aspect ratio
@@ -50,14 +50,15 @@ function resizeImageToBase64($filePath, $maxWidth = 800, $maxHeight = 800, $jpeg
         case IMAGETYPE_JPEG: $src = imagecreatefromjpeg($filePath); break;
         case IMAGETYPE_PNG:  $src = imagecreatefrompng($filePath); break;
         case IMAGETYPE_GIF:  $src = imagecreatefromgif($filePath); break;
+        case IMAGETYPE_WEBP: $src = imagecreatefromwebp($filePath); break;
         default: return false;
     }
 
     // Create a new blank image
     $dst = imagecreatetruecolor($newWidth, $newHeight);
 
-    // Preserve transparency for PNG/GIF
-    if ($imageType == IMAGETYPE_PNG || $imageType == IMAGETYPE_GIF) {
+    // Preserve transparency for PNG/GIF/WebP
+    if (in_array($imageType, [IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_WEBP])) {
         imagecolortransparent($dst, imagecolorallocatealpha($dst, 0, 0, 0, 127));
         imagealphablending($dst, false);
         imagesavealpha($dst, true);
@@ -69,9 +70,10 @@ function resizeImageToBase64($filePath, $maxWidth = 800, $maxHeight = 800, $jpeg
     // Capture output buffer
     ob_start();
     switch ($imageType) {
-        case IMAGETYPE_JPEG: imagejpeg($dst, null, $jpegQuality); break; // quality 0–100
-        case IMAGETYPE_PNG:  imagepng($dst, null, $pngCompression); break; // compression 0–9
+        case IMAGETYPE_JPEG: imagejpeg($dst, null, $jpegQuality); break;
+        case IMAGETYPE_PNG:  imagepng($dst, null, $pngCompression); break;
         case IMAGETYPE_GIF:  imagegif($dst); break;
+        case IMAGETYPE_WEBP: imagewebp($dst, null, $webpQuality); break;
     }
     $imageData = ob_get_clean();
 
@@ -83,6 +85,7 @@ function resizeImageToBase64($filePath, $maxWidth = 800, $maxHeight = 800, $jpeg
     $mime = image_type_to_mime_type($imageType);
     return 'data:' . $mime . ';base64,' . base64_encode($imageData);
 }
+
 
 
 ?>

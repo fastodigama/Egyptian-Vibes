@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['photos'])) {
         }
 
         $mime = $info['mime'];
-        $allowed = ['image/jpeg', 'image/png', 'image/gif'];
+        $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (!in_array($mime, $allowed)) {
             $errors[] = htmlspecialchars($_FILES['photos']['name'][$index]) . " is not an allowed image type.";
             continue;
@@ -98,7 +98,7 @@ $result = mysqli_query($connect, $query);
             <div class="mb-3">
                 <label for="photos" class="form-label">Select Photos</label>
                 <input type="file" class="form-control" id="photos" name="photos[]" multiple
-                       accept="image/png, image/jpeg, image/jpg, image/gif" required>
+                       accept="image/png, image/jpeg, image/jpg, image/gif, image/webp" required>
             </div>
 
             <div class="d-flex gap-2">

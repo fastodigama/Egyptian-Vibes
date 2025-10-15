@@ -109,7 +109,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 .product-list{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
     justify-content: center;
     gap: 1rem;
 
@@ -151,7 +151,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: inline-block;
     width:100%;    
     background-color: #6964F9; 
-    color: #2E2C2C; 
+    color: white; 
     text-align: center;
     line-height: 50px;
     text-decoration: none;
@@ -166,8 +166,34 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
+
+
 @media(max-width: 400px){
     .sidebar{
         width: 100%;
     }
+}
+
+/* Product Details */
+
+.product-details-container{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(300px,1fr));
+    background-color: cadetblue;
+}
+
+.image-container{
+    border: 1px solid red;
+    
+
+}
+
+#heroPic img{
+    height: 600px;
+    width: 400px;
+    object-fit: cover;
+}
+
+#gallery img{
+    width: 200px;
 }

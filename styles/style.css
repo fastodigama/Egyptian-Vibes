@@ -86,10 +86,13 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: none;
 }
 
+
+
 @media(max-width: 800px){
 
     .hideOnMobile{
         display: none;
+        
 
     }
 
@@ -102,7 +105,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #main{
-    padding: 1rem 1rem;
+    padding: 10rem 10rem;
 }
 
 /* Products Grid */
@@ -196,4 +199,22 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 #gallery img{
     width: 200px;
+}
+
+.cart-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  line-height: 1;
 }

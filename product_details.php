@@ -4,7 +4,6 @@
 include('admin/includes/database.php');
 include('frontend_includes/header.php');
 
-include('frontend_includes/config.php');
 
 if (isset($_GET['id'])) {
     $id = (int) $_GET['id']; // cast to int for safety
@@ -51,10 +50,19 @@ if (isset($_GET['id'])) {
            <p> <?php echo htmlspecialchars($product["product_price"]); ?> </p>
        
             <p> <?php echo htmlspecialchars($product["product_desc"]); ?> </p>
-            <a href="#" class="btn" role="button"> Add to cart </a>
+            <!-- add to cart logic -->
+             <form action="set_cart.php" method="get">
+                <input type="hidden" name="id" value="<?php echo $product['product_id']; ?>">
+                <input type="hidden" name="title" value="<?php echo $product['product_title']; ?>">
+                <input type="hidden" name="price" value="<?php echo $product['product_price']; ?>">
+                <label for="qty_<?php echo $product['product_id'];?>">Qty:</label>
+                <input type="number" name="qty" id="qty_<?php echo $product['product_id']; ?>" value="1" min="1" class="qty-input">
+                <button type="submit" class=" btn add-to-cart">Add to cart</button>
+             </form>
         </div>
         
     <?php endif; ?>
+    
 
 <?php include('frontend_includes/footer.php') ?>
  

@@ -30,7 +30,7 @@ if (isset($_GET['id'])) {
             $photos[] = $record['photo'];
         }
         ?>
-        <div class="image-container">
+        <div class="details-image-container">
             <!-- hero image -->
             <div id="heroPic">
             <img id="mainImg" src="<?php echo htmlspecialchars($photos[0]); ?>" 
@@ -47,17 +47,17 @@ if (isset($_GET['id'])) {
         <div class="product-info">
            <h2><?php echo htmlspecialchars($product["product_title"]); ?> </h2> 
         
-           <p> <?php echo htmlspecialchars($product["product_price"]); ?> </p>
+           <p id="price">$ <?php echo htmlspecialchars($product["product_price"]); ?> CAD</p>
        
-            <p> <?php echo htmlspecialchars($product["product_desc"]); ?> </p>
+            <p id="description"> <?php echo htmlspecialchars($product["product_desc"]); ?> </p>
             <!-- add to cart logic -->
              <form action="set_cart.php" method="get">
                 <input type="hidden" name="id" value="<?php echo $product['product_id']; ?>">
                 <input type="hidden" name="title" value="<?php echo $product['product_title']; ?>">
                 <input type="hidden" name="price" value="<?php echo $product['product_price']; ?>">
                 <label for="qty_<?php echo $product['product_id'];?>">Qty:</label>
-                <input type="number" name="qty" id="qty_<?php echo $product['product_id']; ?>" value="1" min="1" class="qty-input">
-                <button type="submit" class=" btn add-to-cart">Add to cart</button>
+                <input type="number" class="cart-input" name="qty" id="qty_<?php echo $product['product_id']; ?>" value="1" min="1" class="qty-input">
+                <button type="submit" class="add-to-cart-btn">Add to cart</button>
              </form>
         </div>
         

@@ -27,6 +27,12 @@ min-height: 100vh;
 
 }
 
+h1, h2{
+   font-family: "Playfair Display SC", serif;
+  font-weight: 600;
+  font-style: normal; 
+}
+
 a {
     text-decoration: none;
 }
@@ -93,7 +99,7 @@ h1.title {
 /* nav menu */
 
 
-nav {
+#main-navigation {
     
     box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
     font-family: "Playfair Display SC", serif;
@@ -262,4 +268,95 @@ nav a:hover{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
+}
+
+.details-image-container{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+/* hero image */
+#heroPic img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Thumbnails row */
+#gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+#gallery img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* product info */
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    gap: 40px;
+
+
+}
+
+.product-info #price {
+    color: #C29F8E;
+    
+}
+
+.product-info #description {
+    line-height: 1.8;
+    letter-spacing: 0.8px;
+}
+
+/* Add to Cart Button Styles */
+.add-to-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #1a1a1a;
+    border: 2px solid #1a1a1a;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.add-to-cart-btn:hover {
+    background-color:#35d374;
+    
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cart-input {
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s ease;
+    min-width: 80px;
+    max-width: 120px;
 }

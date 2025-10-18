@@ -30,7 +30,7 @@
                 <li class="hideOnMobile"><a href="clothing.php">Clothing</a></li>
                 <li class="hideOnMobile"><a href="accessories.php">Accessories</a></li>
                 <li class="hideOnMobile"><a href="contact.html">Contact</a></li>
-                <li class="hideOnMobile"><a href="about.html">About</a></li>
+                <li class="hideOnMobile"><a href="about.php">About</a></li>
                 <li class="hideOnMobile"><a href="login.html">Login</a></li>
                 <li class="menu-button" onclick=showSidebar()><a href="#">
                 <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 0 960 960" width="26px" fill="#1f1f1f">
@@ -52,7 +52,7 @@
                 <li><a href="clothing.php">Clothing</a></li>
                 <li><a href="accessories.php">Accessories</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="about.php">About</a></li>
                 <li><a href="login.html">Login</a></li>
             </ul>
         </nav>

@@ -42,9 +42,7 @@ $result = mysqli_query($connect, $query);
 
 
                 <h3><?php echo $product['product_title']; ?> </h3>
-                <p><?php echo  $product['product_price']; ?></p>
-                <!-- <p><?php // echo $product['product_desc']; ?></p> -->
-                <!-- <a href="#" class="btn" role="button"> Add to cart </a> -->
+                <p>$ <?php echo  $product['product_price']; ?> CAD</p>
                 
             </div>
             

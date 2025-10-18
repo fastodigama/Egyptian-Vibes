@@ -31,19 +31,18 @@ $result = mysqli_query($connect, $query);
 
         <h1>Clothing</h1>
 
-        <div class="product-list">
+         <div class="product-list">
 
 
             <?php if(mysqli_num_rows($result) > 0): ?>
                 <?php while($product = mysqli_fetch_assoc($result)): ?>
 
             <div class="product-card">
-                <?php echo '<a href="#"><img class="img" src="' . $product["thumbnail"]. '" alt=""></a>'; ?>
+                <?php echo '<a href="product_details.php?id=' . $product["product_id"] . '"><img class="img" src="' . $product["thumbnail"] . '" alt=""></a>'; ?>
+
 
                 <h3><?php echo $product['product_title']; ?> </h3>
-                <p><?php echo  $product['product_price']; ?></p>
-                <p><?php echo $product['product_desc']; ?></p>
-                <!-- <a href="#" class="btn" role="button"> Add to cart </a> -->
+                <p>$ <?php echo  $product['product_price']; ?> CAD</p>
                 
             </div>
             

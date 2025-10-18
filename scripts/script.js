@@ -22,7 +22,18 @@ function pageReady() {
    
     galleryImgs();
 
+
     
 
 
 }
+
+    //navbar toggle
+    const sidebar = document.getElementById("sidebar");
+    function showSidebar() {
+        sidebar.style.display = "flex";
+    }
+    function hideSidebar() {
+        sidebar.style.display = "none";
+    }
+    

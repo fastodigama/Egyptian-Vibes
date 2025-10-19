@@ -43,6 +43,9 @@ if (isset($_GET['id'])) {
             alt="<?php echo htmlspecialchars($product['product_title']); ?> photo">
             <?php endforeach; ?>
             </div>
+             <!-- slider buttons -->
+            <button id="previous" class="slider-btn">❮</button>
+            <button id="next" class="slider-btn">❯</button>
         </div>
         <div class="product-info">
            <h2><?php echo htmlspecialchars($product["product_title"]); ?> </h2> 

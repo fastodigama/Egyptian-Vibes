@@ -70,6 +70,19 @@ if (isset($_GET['id'])) {
                 <input type="hidden" name="id" value="<?php echo $product['product_id']; ?>">
                 <input type="hidden" name="title" value="<?php echo $product['product_title']; ?>">
                 <input type="hidden" name="price" value="<?php echo $product['product_price']; ?>">
+                    <div class="col-md-4 mb-3">
+                <label for="product_size" class="form-label">Size</label>
+                <select id="product_size" name="product_size" class="form-select" >
+                    <?php
+                    // Define the allowed sizes
+                    $values = array('S', 'M', 'L', 'XL', 'XXL');
+                    // Generate options for the size dropdown
+                    foreach ($values as $value) {
+                        echo '<option value="'.htmlspecialchars($value).'">'.$value.'</option>';
+                    }
+                    ?>
+                </select>
+            </div>
 
                 <!-- Quantity input -->
                 <label for="qty_<?php echo $product['product_id'];?>">Qty:</label>

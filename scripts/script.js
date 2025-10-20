@@ -1,62 +1,80 @@
+// This function is called when the window has fully loaded
 window.onload = pageReady;
 
 function pageReady() {
-
+    // Select the main image element by its ID
     const mainImg = document.getElementById("mainImg");
+
+    // Select all thumbnail images within the gallery by their parent element ID
     const thumbs = document.querySelectorAll("#gallery img");
 
-    // Image gallery click to change main image (desktop)
+    // Function to handle image gallery click events for desktop
     function galleryImgs() {
+        // Loop through all thumbnail images
         for (let i = 0; i < thumbs.length; i++) {
+            // Add a click event listener to each thumbnail
             thumbs[i].addEventListener("click", function () {
+                // When a thumbnail is clicked, change the main image source to the clicked thumbnail's source
                 mainImg.src = this.src;
             });
         }
     }
 
+    // Call the function to set up the gallery image click events
     galleryImgs();
 
-    // Mobile slider logic
+    // Function to handle mobile slider logic
     function mobileSlider() {
+        // Select the next and previous buttons by their IDs
         const nextButton = document.getElementById("next");
         const previousButton = document.getElementById("previous");
 
+        // Check if there are no thumbnails or buttons, then disable the slider
         if (!thumbs.length || !nextButton || !previousButton) {
             console.log("No slides or buttons found — slider disabled");
             return;
         }
 
+        // Initialize the current image index
         let current = 0;
+        // Get the total number of thumbnails
         const total = thumbs.length;
 
-        // Initialize main image
+        // Initialize the main image to the first thumbnail
         mainImg.src = thumbs[current].src;
 
+        // Add a click event listener to the next button
         nextButton.addEventListener("click", function () {
+            // Move to the next image, wrapping around to the first if at the end
             current = (current + 1) % total;
+            // Update the main image to the new current image
             mainImg.src = thumbs[current].src;
         });
 
+        // Add a click event listener to the previous button
         previousButton.addEventListener("click", function () {
+            // Move to the previous image, wrapping around to the last if at the beginning
             current = (current - 1 + total) % total;
+            // Update the main image to the new current image
             mainImg.src = thumbs[current].src;
         });
     }
 
-    // Only run mobile slider if width <= 768px
+    // Check if the window width is 768 pixels or less to activate the mobile slider
     if (window.innerWidth <= 768) {
         console.log("Mobile slider activated");
         mobileSlider();
     }
 }
 
-// --- navbar toggle ---
-const sidebar = document.getElementById("sidebar");
-
+// Function to show the sidebar
 function showSidebar() {
+    // Change the display style of the sidebar to "flex" to make it visible
     sidebar.style.display = "flex";
 }
 
+// Function to hide the sidebar
 function hideSidebar() {
+    // Change the display style of the sidebar to "none" to hide it
     sidebar.style.display = "none";
 }

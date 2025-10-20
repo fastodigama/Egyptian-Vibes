@@ -1,108 +1,100 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
-
-html{
+/* Import Google Fonts for a consistent typography across the website. */
+html {
     box-sizing: border-box;
+    /* Apply box-sizing to the root element to ensure all elements inherit this property. */
 }
 
-
-*,
-*::before,
-*::after {
+*, *::before, *::after {
     box-sizing: inherit;
     padding: 0;
     margin: 0;
+    /* Reset default margins and paddings for all elements and their pseudo-elements. */
 }
 
-body{
-min-height: 100vh;
-
-/* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-
- font-family: "Josefin Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-
+body {
+    min-height: 100vh;
+    /* Ensure the body takes at least the full height of the viewport. */
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    /* Apply the primary font family and set default font properties. */
 }
 
-h1, h2{
-   font-family: "Playfair Display SC", serif;
-  font-weight: 600;
-  font-style: normal; 
+h1, h2 {
+    font-family: "Playfair Display SC", serif;
+    font-weight: 600;
+    font-style: normal;
+    /* Apply a different font family for headings to create a contrast with the body text. */
 }
 
 a {
     text-decoration: none;
     color: #333;
+    /* Remove underline from links and set a default color. */
 }
 
-
-section{
+section {
     margin-bottom: 2em;
+    /* Add space between sections for better readability. */
 }
 
 img {
     max-width: 100%;
     height: auto;
+    /* Ensure images are responsive and maintain their aspect ratio. */
 }
 
 .image-title-overlay .title {
     position: absolute;
     color: #fff;
     text-shadow: 2px 2px 0 orange;
+    /* Style for image titles with a text shadow effect. */
 }
-
-
 
 h1.title {
-    font-size: clamp(2em, 5vw, 6em); /* clamp(<min>, <ideal>, <max>); */
+    font-size: clamp(2em, 5vw, 6em);
+    /* Use clamp function to create a responsive font size for titles. */
 }
 
-
-
-#footer,
-#main {
+#footer, #main {
     padding: 1em;
+    /* Add padding to the footer and main content area. */
 }
-
-
 
 .flex-container-row {
     padding: 1em;
-   
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: row wrap;
     gap: 1em;
+    /* Create a flexible row layout with centered content and spacing between items. */
 }
 
 .flex-item {
-    
     flex: 1 0 0;
+    /* Allow flex items to grow and shrink as needed. */
 }
 
 #main {
-   flex:1 0 0;
+    flex: 1 0 0;
+    /* Ensure the main content area takes up the available space. */
 }
-
-
 
 #suggested-articles img {
     width: 100%;
+    /* Make images in suggested articles responsive. */
 }
 
-/* nav menu */
-
-
 #main-navigation {
-    
     box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
     font-family: "Playfair Display SC", serif;
     font-weight: 400;
     font-style: normal;
+    /* Style the main navigation bar with a shadow and specific font properties. */
 }
 
 nav ul {
@@ -111,101 +103,99 @@ nav ul {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-   
+    /* Create a horizontal navigation menu with flexbox. */
 }
 
-nav li{
+nav li {
     height: 50px;
+    /* Set a fixed height for navigation items. */
 }
 
-nav a{
+nav a {
     height: 100%;
     text-decoration: none;
     color: #333;
     display: flex;
     align-items: center;
-    padding: 0 30px ;
-} 
+    padding: 0 30px;
+    /* Style navigation links with flexbox for alignment and padding. */
+}
 
-nav a:hover{
+nav a:hover {
     color: orangered;
     background-color: #f0f0f0;
-    
-    
+    /* Add hover effects to navigation links. */
 }
 
 #main-navigation li:first-child {
     margin-right: auto;
     font-weight: 600;
-}
+    letter-spacing: 1px;
+    font-size: 1.2em;
 
-/* sidebar menu */
+    /* Style the first navigation item differently. */
+}
 
 #sidebar {
     position: fixed;
-    top:0;
+    top: 0;
     right: 0;
     height: 100vh;
     width: 250px;
-    z-index:999;
+    z-index: 999;
     background-color: rgba(255, 255, 255, 0.295);
     backdrop-filter: blur(10px);
-    box-shadow: -10px 0 1-px rgba(0,0,0,0.1);
+    box-shadow: -10px 0 1px rgba(0,0,0,0.1);
     display: none;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-
-
+    /* Create a fixed sidebar with specific styles and initial hidden state. */
 }
 
 #sidebar li {
     width: 100%;
+    /* Ensure sidebar list items take the full width. */
 }
 
 #sidebar a {
-  width: 100%;  
+    width: 100%;
+    /* Ensure sidebar links take the full width. */
 }
-
 
 #cart-nav ul {
-    list-style: none;;
+    list-style: none;
+    /* Remove list styling from the cart navigation. */
 }
 
-.menu-button{
+.menu-button {
     display: none;
+    /* Hide the menu button by default. */
 }
-/* tablet view */
-@media screen and (max-width: 960px) {
 
+@media screen and (max-width: 960px) {
     .hideOnMobile {
         display: none;
     }
-
-    .menu-button{
-    display: block;
+    .menu-button {
+        display: block;
+    }
+    /* Adjust styles for tablet view, hiding certain elements and showing the menu button. */
 }
-}
 
-
-/* mobile view */
-
-@media(max-width: 480px) {
-     #sidebar {
+@media (max-width: 480px) {
+    #sidebar {
         width: 100%;
     }
+    /* Adjust sidebar width for mobile view. */
 }
 
-
-
-/* Products Grid */
-
-.product-list{
+.product-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
     justify-content: center;
     gap: 1rem;
-
+    /* Create a responsive product grid layout. */
 }
 
 .product-card {
@@ -217,80 +207,78 @@ nav a:hover{
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     gap: 0.75rem;
+    /* Style individual product cards with flexbox and shadow. */
 }
-
-
 
 .product-card h3 {
     margin-top: 0.75rem;
     font-size: 1rem;
+    /* Style product titles within cards. */
 }
 
 .product-card p {
     color: #333;
     font-weight: 600;
+    /* Style product descriptions within cards. */
 }
 
-
-.product-card img{
+.product-card img {
     max-width: 100%;
     aspect-ratio: 2 / 3;
     border-radius: 10px;
-    object-fit:cover;
+    object-fit: cover;
+    /* Ensure product images are responsive and styled appropriately. */
 }
 
-
-/* Cart badge */
-
 .cart-icon {
-  position: relative;
-  
+    position: relative;
+    /* Position the cart icon relative to its container. */
 }
 
 .cart-badge {
-  position: absolute;
-  top: 8px;
-  right: 20px;
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 2px 6px;
-  line-height: 1;
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    line-height: 1;
+    /* Style the cart badge with absolute positioning. */
 }
-
-/* Product details section */
 
 .product-details-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
+    /* Create a grid layout for product details. */
 }
 
-.details-image-container{
+.details-image-container {
     display: flex;
     flex-flow: column;
     align-items: center;
     gap: 10px;
-    
+    /* Style the container for product images. */
 }
 
-/* hero image */
 #heroPic img {
     width: 100%;
     max-width: 500px;
     border-radius: 8px;
     object-fit: cover;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    /* Style the hero image with responsive properties. */
 }
 
-/* Thumbnails row */
 #gallery {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 1em;
+    /* Create a flexible gallery layout for thumbnails. */
 }
 
 #gallery img {
@@ -299,6 +287,7 @@ nav a:hover{
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
+    /* Style gallery thumbnails. */
 }
 
 .slider-btn {
@@ -312,51 +301,48 @@ nav a:hover{
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;
+    /* Style slider buttons with absolute positioning. */
 }
 
 #previous { left: 10px; }
 #next { right: 10px; }
-
 .details-image-container {
     position: relative;
+    /* Position the image container relative to its content. */
 }
-@media screen and (max-width:768px) {
-    
+
+@media screen and (max-width: 768px) {
     .product-details-container {
-        
         grid-template-columns: 1fr;
-        
     }
     .slider-btn {
         display: block;
     }
     #gallery {
-        display: none; /* hide thumbnails on mobile */
+        display: none;
     }
-
+    /* Adjust layout for smaller screens, hiding thumbnails and showing slider buttons. */
 }
-/* product info */
 
 .product-info {
     display: flex;
     flex-direction: column;
-    justify-content:center;
+    justify-content: center;
     gap: 40px;
-
-
+    /* Style the product information section. */
 }
 
 .product-info #price {
     color: #C29F8E;
-    
+    /* Style the price text. */
 }
 
 .product-info #description {
     line-height: 1.8;
     letter-spacing: 0.8px;
+    /* Style the product description text. */
 }
 
-/* Add to Cart Button Styles */
 .add-to-cart-btn {
     display: inline-flex;
     align-items: center;
@@ -372,11 +358,13 @@ nav a:hover{
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
+    /* Style the "Add to Cart" button with flexbox and transitions. */
 }
+
 .add-to-cart-btn:hover {
-    background-color:#35d374;
-    
+    background-color: #35d374;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Add hover effects to the "Add to Cart" button. */
 }
 
 .cart-input {
@@ -391,156 +379,157 @@ nav a:hover{
     transition: all 0.3s ease;
     min-width: 80px;
     max-width: 120px;
+    /* Style the cart input field. */
 }
 
-/* view cart section */
 .cart-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1em;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1em;
+    /* Create a grid layout for the cart section. */
 }
 
 .cart-items-column {
-  display: flex;
-  flex-direction: column;  /* Changed from row to column */
-  gap: 1em;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 1em;  /* Added padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1em;
+    /* Style the column for cart items. */
 }
 
 .cart-summary-column {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 1em;  /* Added padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1em;
+    /* Style the column for cart summary. */
 }
 
 .cart-summary {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    /* Style the cart summary section. */
 }
 
 .cart-item {
-  display: flex;
-  flex-direction: row;
-  gap: 1em;  /* Added gap between thumbnail and details */
-  padding: 1em;
-  border: 1px solid #ddd;  /* Optional: separate each item visually */
-  border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    /* Style individual cart items. */
 }
 
 .item-thumbnail {
-  flex-shrink: 0;  /* Prevent thumbnail from shrinking */
-  width: 150px;  /* Set a fixed width for thumbnails */
+    flex-shrink: 0;
+    width: 150px;
+    /* Ensure thumbnails do not shrink and set a fixed width. */
 }
 
 .cart-item img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 4px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    /* Ensure cart item images are responsive and styled. */
 }
 
 .cart-item-details {
-  display: flex;
-  flex-direction: column;
-  flex: 1;  /* Take up remaining space */
-  gap: 0.5em;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.5em;
+    /* Style the details section of cart items. */
 }
 
 .cart-item-details h3 {
-  margin: 0;
-  font-size: 1.2em;
+    margin: 0;
+    font-size: 1.2em;
+    /* Style the title of cart items. */
 }
 
 .cart-item-details p {
-  margin: 0.25em 0;
+    margin: 0.25em 0;
+    /* Style the description of cart items. */
 }
 
 .cart-item-details form {
-  display: flex;
-  gap: 0.5em;
-  align-items: center;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Style the form within cart items. */
 }
 
 .cart-item-details input[type="number"] {
-  width: 60px;
-  padding: 0.5em;
+    width: 60px;
+    padding: 0.5em;
+    /* Style the quantity input field. */
 }
 
 .cart-item-details button {
-  padding: 0.5em 1em;
+    padding: 0.5em 1em;
+    /* Style the buttons within cart items. */
 }
 
-/* Tablet breakpoint */
 @media (max-width: 768px) {
-  .cart-grid {
-    grid-template-columns: 1fr;  /* Stack columns vertically */
-  }
-  
-  .item-thumbnail {
-    width: 120px;  /* Smaller thumbnail on tablets */
-  }
-  
-  .cart-items-column,
-  .cart-summary-column {
-    padding: 0.75em;
-  }
+    .cart-grid {
+        grid-template-columns: 1fr;
+    }
+    .item-thumbnail {
+        width: 120px;
+    }
+    .cart-items-column, .cart-summary-column {
+        padding: 0.75em;
+    }
+    /* Adjust cart layout for tablet view. */
 }
 
-/* Mobile breakpoint */
 @media (max-width: 480px) {
-  .cart-grid {
-    grid-template-columns: 1fr;
-    gap: 0.5em;
-  }
-  
-  .cart-items-column,
-  .cart-summary-column {
-    padding: 0.5em;
-  }
-  
-  .cart-item {
-    flex-direction: column;  /* Stack thumbnail above details */
-    padding: 0.75em;
-  }
-  
-  .item-thumbnail {
-    width: 100%;  /* Full width thumbnail on mobile */
-    max-width: 250px;
-    margin: 0 auto;  /* Center the thumbnail */
-  }
-  
-  .cart-item-details {
-    width: 100%;
-  }
-  
-  .cart-item-details h3 {
-    font-size: 1.1em;
-  }
-  
-  .cart-item-details form {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .cart-item-details input[type="number"] {
-    width: 100%;
-    max-width: 100px;
-  }
-  
-  .cart-item-details button,
-  .remove-btn {
-    width: 100%;
-    text-align: center;
-    padding: 0.75em;
-  }
+    .cart-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5em;
+    }
+    .cart-items-column, .cart-summary-column {
+        padding: 0.5em;
+    }
+    .cart-item {
+        flex-direction: column;
+        padding: 0.75em;
+    }
+    .item-thumbnail {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    .cart-item-details {
+        width: 100%;
+    }
+    .cart-item-details h3 {
+        font-size: 1.1em;
+    }
+    .cart-item-details form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .cart-item-details input[type="number"] {
+        width: 100%;
+        max-width: 100px;
+    }
+    .cart-item-details button, .remove-btn {
+        width: 100%;
+        text-align: center;
+        padding: 0.75em;
+    }
+    /* Adjust cart layout for mobile view. */
 }
+
 .btn {
     display: inline-block;
     padding: 0.5em 1em;
@@ -550,15 +539,18 @@ nav a:hover{
     text-decoration: none;
     text-align: center;
     transition: background-color 0.3s;
+    /* Style generic buttons. */
 }
 
 .btn-update {
     background-color: burlywood;
     color: white;
+    /* Style the update button. */
 }
 
 .btn-update:hover {
     background-color: #45a049;
+    /* Add hover effect to the update button. */
 }
 
 .btn-remove {
@@ -567,21 +559,24 @@ nav a:hover{
     padding: 0.4em 0.8em;
     font-size: 0.9em;
     margin-top: 0.5em;
-    align-self: flex-start;  
+    align-self: flex-start;
+    /* Style the remove button. */
 }
 
 .btn-remove:hover {
     background-color: #da190b;
+    /* Add hover effect to the remove button. */
 }
-
 
 @media (max-width: 480px) {
     .btn-remove {
         width: 100%;
-        align-self: stretch;  /* Full width on mobile */
+        align-self: stretch;
         padding: 0.75em;
     }
+    /* Adjust remove button for mobile view. */
 }
+
 .btn-checkout {
     background-color: black;
     color: white;
@@ -589,8 +584,22 @@ nav a:hover{
     padding: 1em;
     font-size: 1.1em;
     margin-top: 1em;
+    /* Style the checkout button. */
 }
 
 .btn-checkout:hover {
     background-color: #35d374;
+    /* Add hover effect to the checkout button. */
+}
+
+.form-section {
+  background-color:#fff3d7;
+  padding:1em 1.5em 2em 1.5em;
+  border-radius:0.8em;
+}
+.form-field.inline * {
+  display:inline-block;
+}
+.form-field.block * {
+  display:block;
 }

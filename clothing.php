@@ -1,12 +1,20 @@
 <?php
 
-
+// Include the database connection file (sets up $connect for queries)
 include('admin/includes/database.php');
+
+// Include the header file (common HTML head, navigation, etc.)
 include('frontend_includes/header.php');
 
+// Include the configuration file (site-wide settings or constants)
 include('frontend_includes/config.php');
 
 
+// SQL query to fetch all products in the "Clothing" category
+// - Selects all product fields (p.*)
+// - Also fetches the latest photo (thumbnail) for each product
+// - Joins product with category tables to filter by category name
+// - Orders results by the date the product was added
 $query = "SELECT p.*,
                 (
                     SELECT pp.photo
@@ -21,37 +29,41 @@ $query = "SELECT p.*,
             WHERE c.category_name = 'Clothing'
             ORDER BY p.dateAdded;
         ";
-$result = mysqli_query($connect, $query);
 
+// Run the query against the database
+$result = mysqli_query($connect, $query);
 
 ?>
 
+<!-- Page Content Starts -->
 
+<h1>Clothing</h1> <!-- Page heading -->
 
+<div class="product-list">
 
-        <h1>Clothing</h1>
-
-        <div class="product-list">
-
-
-            <?php if(mysqli_num_rows($result) > 0): ?>
-                <?php while($product = mysqli_fetch_assoc($result)): ?>
+    <!-- Check if query returned any products -->
+    <?php if(mysqli_num_rows($result) > 0): ?>
+        
+        <!-- Loop through each product row -->
+        <?php while($product = mysqli_fetch_assoc($result)): ?>
 
             <div class="product-card">
+                <!-- Product image with link to product details page -->
                 <?php echo '<a href="product_details.php?id=' . $product["product_id"] . '"><img class="img" src="' . $product["thumbnail"] . '" alt=""></a>'; ?>
 
-
+                <!-- Product title -->
                 <h3><?php echo $product['product_title']; ?> </h3>
+
+                <!-- Product price -->
                 <p>$ <?php echo  $product['product_price']; ?> CAD</p>
-                
             </div>
-            
-
-
-
-        
 
         <?php endwhile; ?>
-        <?php endif; ?>
+    <?php endif; ?>
 
+</div>
+
+<!-- Include footer (common closing HTML, scripts, etc.) -->
 <?php include('frontend_includes/footer.php'); ?>
+
+<!-- Page Content Ends -->

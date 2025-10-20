@@ -1,23 +1,36 @@
 <?php
+// Include configuration file for database connection settings
 include('includes/config.php');
+
+// Include database connection file
 include('includes/database.php');
+
+// Include functions file for reusable functions
 include('includes/functions.php');
+
+// Call a security function to ensure the page is accessed securely
 secure();
 
+// Include header file for common HTML header content
 include('includes/header.php');
 ?>
 
+<!-- HTML for the product management page -->
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Manage Products</h2>
+        <!-- Button to navigate to the product addition page -->
         <a href="product_add.php" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Add Product
         </a>
     </div>
 
     <?php
+    // Check if a search query is present in the GET request
     if (isset($_GET['search']) && $_GET['search'] !== '') {
+        // Escape the search input to prevent SQL injection
         $searchInput = mysqli_real_escape_string($connect, $_GET['search']);
+        // Prepare the SQL query to search for products by title or description
         $query = "
             SELECT p.*,
                 (
@@ -33,6 +46,7 @@ include('includes/header.php');
             ORDER BY p.dateAdded
         ";
     } else {
+        // Prepare the SQL query to retrieve all products ordered by date added
         $query = "
             SELECT p.*,
                 (
@@ -47,6 +61,7 @@ include('includes/header.php');
         ";
     }
 
+    // Execute the query
     $result = mysqli_query($connect, $query);
     ?>
 
@@ -54,19 +69,22 @@ include('includes/header.php');
     <form method="get" class="mb-4">
         <div class="row g-2 align-items-center">
             <div class="col-md-6 col-lg-4">
-                <input 
-                    type="search" 
-                    name="search" 
-                    class="form-control" 
-                    placeholder="Search products..." 
+                <!-- Search input field -->
+                <input
+                    type="search"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search products..."
                     value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
             </div>
             <div class="col-auto">
+                <!-- Submit button for the search form -->
                 <button type="submit" class="btn btn-dark">
                     <i class="bi bi-search"></i> Search
                 </button>
             </div>
             <div class="col-auto">
+                <!-- Reset button to clear the search query -->
                 <a href="product_list.php" class="btn btn-outline-secondary">
                     <i class="bi bi-arrow-clockwise"></i> Reset
                 </a>
@@ -95,11 +113,13 @@ include('includes/header.php');
                         <tr>
                             <td>
                                 <?php if ($record['thumbnail']): ?>
-                                    <img src="<?php echo htmlspecialchars($record['thumbnail']); ?>" 
+                                    <!-- Display the thumbnail image if available -->
+                                    <img src="<?php echo htmlspecialchars($record['thumbnail']); ?>"
                                          alt="Thumbnail"
-                                         class="img-thumbnail" 
+                                         class="img-thumbnail"
                                          style="width: 100px; height: auto;">
                                 <?php else: ?>
+                                    <!-- Display a message if no thumbnail is available -->
                                     <span class="text-muted">No image</span>
                                 <?php endif; ?>
                             </td>
@@ -110,17 +130,20 @@ include('includes/header.php');
                             <td><?php echo htmlspecialchars($record['product_size']); ?></td>
                             <td><?php echo htmlspecialchars($record['product_sku']); ?></td>
                             <td>
-                                <a href="product_photo.php?product_id=<?php echo (int)$record['product_id']; ?>" 
+                                <!-- Button to navigate to the product photos page -->
+                                <a href="product_photo.php?product_id=<?php echo (int)$record['product_id']; ?>"
                                    class="btn btn-sm btn-outline-info">
                                     <i class="bi bi-images"></i> Photos
                                 </a>
                             </td>
                             <td>
-                                <a href="product_edit.php?product_id=<?php echo (int)$record['product_id']; ?>" 
+                                <!-- Button to navigate to the product editing page -->
+                                <a href="product_edit.php?product_id=<?php echo (int)$record['product_id']; ?>"
                                    class="btn btn-sm btn-warning me-2">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
-                                <a href="product_delete_confirm.php?delete=<?php echo (int)$record['product_id']; ?>" 
+                                <!-- Button to navigate to the product deletion confirmation page -->
+                                <a href="product_delete_confirm.php?delete=<?php echo (int)$record['product_id']; ?>"
                                    class="btn btn-sm btn-danger">
                                     <i class="bi bi-trash"></i> Delete
                                 </a>

@@ -1,10 +1,20 @@
 <?php
+// Include configuration file for database connection settings
 include('includes/config.php');
+
+// Include database connection file
 include('includes/database.php');
+
+// Include functions file for reusable functions
 include('includes/functions.php');
+
+// Call a security function to ensure the page is accessed securely
 secure();
+
+// Include header file for common HTML header content
 include('includes/header.php');
 
+// Retrieve and convert the product ID from the GET request to an integer
 $product_id = (int)$_GET['product_id'];
 
 // Collect errors
@@ -13,7 +23,6 @@ $errors = [];
 // Handle photo upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['photos'])) {
     foreach ($_FILES['photos']['tmp_name'] as $index => $tmpName) {
-
         // 1. Check upload error
         if ($_FILES['photos']['error'][$index] !== UPLOAD_ERR_OK) {
             $errors[] = "Upload error for " . htmlspecialchars($_FILES['photos']['name'][$index]);
@@ -40,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['photos'])) {
             continue;
         }
 
-        // Optional: check dimensions (max 5000x5000)
+        //  check dimensions (max 5000x5000)
         if ($info[0] > 5000 || $info[1] > 5000) {
             $errors[] = htmlspecialchars($_FILES['photos']['name'][$index]) . " exceeds maximum dimensions (5000x5000).";
             continue;
@@ -65,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['photos'])) {
 
 // Handle photo delete
 if (isset($_GET['delete'])) {
-    $query = 'DELETE FROM product_photos 
-              WHERE photo_id = ' . (int)$_GET['delete'] . ' 
+    $query = 'DELETE FROM product_photos
+              WHERE photo_id = ' . (int)$_GET['delete'] . '
               LIMIT 1';
     mysqli_query($connect, $query);
     header('Location: product_photo.php?product_id=' . $product_id);
@@ -78,12 +87,12 @@ $query = "SELECT * FROM product_photos WHERE product_id = $product_id";
 $result = mysqli_query($connect, $query);
 ?>
 
+<!-- HTML for the product photo management page -->
 <div class="container my-5">
-
     <div class="card shadow-sm p-4 mb-4">
         <h2 class="mb-4">Add Photos</h2>
 
-        <!-- Show validation errors -->
+        <!-- Show validation errors if any -->
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
                 <ul class="mb-0">
@@ -94,6 +103,7 @@ $result = mysqli_query($connect, $query);
             </div>
         <?php endif; ?>
 
+        <!-- Form for uploading photos -->
         <form method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="photos" class="form-label">Select Photos</label>
@@ -102,7 +112,9 @@ $result = mysqli_query($connect, $query);
             </div>
 
             <div class="d-flex gap-2">
+                <!-- Submit button to upload photos -->
                 <button type="submit" class="btn btn-success">Upload</button>
+                <!-- Cancel button to navigate back to the product list -->
                 <a href="product_list.php" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </form>
@@ -124,15 +136,18 @@ $result = mysqli_query($connect, $query);
                         <tr>
                             <td>
                                 <?php if ($record['photo']): ?>
-                                    <img src="<?= htmlspecialchars($record['photo']); ?>" 
+                                    <!-- Display the photo if available -->
+                                    <img src="<?= htmlspecialchars($record['photo']); ?>"
                                          class="img-thumbnail" style="width:100px; height:auto;" alt="Product Photo">
                                 <?php else: ?>
+                                    <!-- Display a message if no photo is available -->
                                     <span class="text-muted">No image</span>
                                 <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($record['dateAdded']); ?></td>
                             <td>
-                                <a href="product_photo.php?product_id=<?= $product_id; ?>&delete=<?= (int)$record['photo_id']; ?>" 
+                                <!-- Button to delete the photo with a confirmation dialog -->
+                                <a href="product_photo.php?product_id=<?= $product_id; ?>&delete=<?= (int)$record['photo_id']; ?>"
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Are you sure you want to delete this photo?');">
                                    <i class="bi bi-trash me-1"></i> Delete

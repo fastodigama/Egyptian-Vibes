@@ -19,6 +19,8 @@ include('frontend_includes/config.php');
     <!-- Background/hero image for the homepage -->
     <!-- image source credit: https://pureboutique.ca/ -->
     <img src="IMAGES/New_Arrivals_92605665-aac7-47a9-a5de-768963e7890a_1600x1067_crop_center.webp" alt="welcome image">
+
+    
 </header>
    
 

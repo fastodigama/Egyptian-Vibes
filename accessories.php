@@ -37,7 +37,7 @@ $result = mysqli_query($connect, $query);
 
 <!-- Page Content Starts -->
 
-<h1>Clothing</h1> <!-- Page heading (note: currently says "Clothing" though query is for Accessories) -->
+<h1>Accessories</h1> <!-- Page heading (note: currently says "Clothing" though query is for Accessories) -->
 
 <div class="product-list">
 

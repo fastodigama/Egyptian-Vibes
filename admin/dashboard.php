@@ -46,6 +46,13 @@ secure();
         <i class="bi bi-people me-2"></i> Manage Users
       </a>
     </div>
+
+    <!-- Option to manage colors -->
+    <div class="col-md-3 col-sm-6">
+      <a href="color_add.php" class="btn btn-outline-dark w-100 py-3" aria-label="Manage Users">
+        <i class="bi bi-people me-2"></i> Manage Product Colours
+      </a>
+    </div>
   </div>
 </main>
 

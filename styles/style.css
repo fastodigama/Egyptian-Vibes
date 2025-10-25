@@ -1,52 +1,57 @@
+/* ===========================
+   GOOGLE FONTS IMPORT
+   =========================== */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+/* Import Google Fonts for consistent typography across the site */
 
-/* Import Google Fonts for a consistent typography across the website. */
+/* ===========================
+   GLOBAL RESET & BASE
+   =========================== */
 html {
-    box-sizing: border-box;
-    /* Apply box-sizing to the root element to ensure all elements inherit this property. */
+    box-sizing: border-box; /* Ensure padding/border are included in element width */
 }
 
 *, *::before, *::after {
-    box-sizing: inherit;
-    padding: 0;
-    margin: 0;
-    /* Reset default margins and paddings for all elements and their pseudo-elements. */
+    box-sizing: inherit; /* Inherit box-sizing from html */
+    padding: 0;          /* Reset default padding */
+    margin: 0;           /* Reset default margin */
 }
 
 body {
-    min-height: 100vh;
-    /* Ensure the body takes at least the full height of the viewport. */
-    font-family: "Josefin Sans", sans-serif;
+    min-height: 100vh; /* Body takes full viewport height */
+    font-family: "Josefin Sans", sans-serif; /* Main font */
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    /* Apply the primary font family and set default font properties. */
 }
 
 h1, h2 {
-    font-family: "Playfair Display SC", serif;
+    font-family: "Playfair Display SC", serif; /* Headings use contrasting font */
     font-weight: 600;
     font-style: normal;
-    /* Apply a different font family for headings to create a contrast with the body text. */
 }
 
 a {
-    text-decoration: none;
-    color: #333;
-    /* Remove underline from links and set a default color. */
+    text-decoration: none; /* Remove underline from links */
+    color: #333;           /* Default link color */
+}
+
+a:hover {
+    color: orangered;
 }
 
 section {
-    margin-bottom: 2em;
-    /* Add space between sections for better readability. */
+    margin-bottom: 2em; /* Space between sections */
 }
 
 img {
-    max-width: 100%;
+    max-width: 100%; /* Responsive images */
     height: auto;
-    /* Ensure images are responsive and maintain their aspect ratio. */
 }
 
+/* ===========================
+   IMAGE TITLE OVERLAY
+   =========================== */
 .image-title-overlay {
     justify-self: center;
 }
@@ -54,40 +59,34 @@ img {
 .image-title-overlay .title {
     position: absolute;
     color: #fff;
-    text-shadow: 2px 2px 0 orange;
-    
-    /* Style for image titles with a text shadow effect. */
+    text-shadow: 2px 2px 0 orange; /* Orange shadow for readability */
 }
 
 h1.title {
-    font-size: clamp(2em, 5vw, 6em);
-    /* Use clamp function to create a responsive font size for titles. */
+    font-size: clamp(2em, 5vw, 6em); /* Responsive heading size */
 }
 
+/* ===========================
+   LAYOUT CONTAINERS
+   =========================== */
 #footer, #main {
-    padding: 1em;
-    /* Add padding to the footer and main content area. */
+    padding: 1em; /* Padding for footer and main content */
 }
 
 .flex-container-row {
     padding: 1em;
     display: flex;
     justify-content: space-between;
-    
-    flex-flow: row wrap;
+    flex-flow: row wrap; /* Wrap items if needed */
     gap: 1em;
-    /* Create a flexible row layout with centered content and spacing between items. */
 }
 
 .flex-item {
-    flex: 1 0 0;
-    /* Allow flex items to grow and shrink as needed. */
+    flex: 1 0 0; /* Flexible items */
 }
 
 #main {
-    flex: 1 0 0;
-    
-    /* Ensure the main content area takes up the available space. */
+    flex: 1 0 0; /* Main content grows */
 }
 
 #suggested-articles {
@@ -95,120 +94,123 @@ h1.title {
 }
 
 #suggested-articles img {
-    width: 100%;
-    /* Make images in suggested articles responsive. */
+    width: 100%; /* Responsive article images */
 }
 
+/* ===========================
+   NAVIGATION
+   =========================== */
 #main-navigation {
-    box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.1); /* Subtle shadow */
     font-family: "Playfair Display SC", serif;
     font-weight: 400;
     font-style: normal;
-    /* Style the main navigation bar with a shadow and specific font properties. */
 }
 
 nav ul {
     width: 100%;
-    list-style: none;
+    list-style: none; /* Remove bullets */
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end; /* Align right */
     align-items: center;
-    /* Create a horizontal navigation menu with flexbox. */
 }
 
 nav li {
-    height: 50px;
-    /* Set a fixed height for navigation items. */
+    height: 50px; /* Fixed height for nav items */
 }
 
 nav a {
     height: 100%;
-    text-decoration: none;
     color: #333;
     display: flex;
     align-items: center;
-    padding: 0 30px;
-    /* Style navigation links with flexbox for alignment and padding. */
+    padding: 0 30px; /* Clickable padding */
 }
 
 nav a:hover {
     color: orangered;
-    background-color: #f0f0f0;
-    /* Add hover effects to navigation links. */
+    background-color: #f0f0f0; /* Hover effect */
 }
 
 #main-navigation li:first-child {
-    margin-right: auto;
+    margin-right: auto; /* Pushes other items right */
     font-weight: 600;
     letter-spacing: 1px;
     font-size: 1.2em;
-
-    /* Style the first navigation item differently. */
 }
 
+/* ===========================
+   SIDEBAR
+   =========================== */
 #sidebar {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 0; right: 0;
     height: 100vh;
     width: 250px;
     z-index: 999;
     background-color: rgba(255, 255, 255, 0.295);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); /* Glass effect */
     box-shadow: -10px 0 1px rgba(0,0,0,0.1);
-    display: none;
+    display: none; /* Hidden by default */
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    /* Create a fixed sidebar with specific styles and initial hidden state. */
 }
 
-#sidebar li {
-    width: 100%;
-    /* Ensure sidebar list items take the full width. */
-}
-
-#sidebar a {
-    width: 100%;
-    /* Ensure sidebar links take the full width. */
+#sidebar li, #sidebar a {
+    width: 100%; /* Full width items */
 }
 
 #cart-nav ul {
-    list-style: none;
-    /* Remove list styling from the cart navigation. */
+    list-style: none; /* Remove bullets */
 }
 
 .menu-button {
-    display: none;
-    /* Hide the menu button by default. */
+    display: none; /* Hidden on desktop */
 }
 
+/* ===========================
+   RESPONSIVE NAVIGATION
+   =========================== */
 @media screen and (max-width: 960px) {
-    .hideOnMobile {
-        display: none;
-    }
-    .menu-button {
-        display: block;
-    }
-    /* Adjust styles for tablet view, hiding certain elements and showing the menu button. */
+    .hideOnMobile { display: none; }
+    .menu-button { display: block; }
 }
 
 @media (max-width: 480px) {
-    #sidebar {
-        width: 100%;
-    }
-    /* Adjust sidebar width for mobile view. */
+    #sidebar { width: 100%; } /* Full width sidebar on mobile */
 }
 
+/* ===========================
+   PRODUCT LIST GRID
+   =========================== */
 .product-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
     justify-content: center;
     gap: 1rem;
     margin-top: 3rem;
-    /* Create a responsive product grid layout. */
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+@media (min-width: 961px) {
+    .product-list { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 721px) and (max-width: 960px) {
+    .product-list { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 481px) and (max-width: 720px) {
+    .product-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+    .product-list { grid-template-columns: 1fr; }
+}
+
+/* ===========================
+   PRODUCT CARD
+   =========================== */
 .product-card {
     display: flex;
     flex-direction: column;
@@ -218,19 +220,16 @@ nav a:hover {
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     gap: 0.75rem;
-    /* Style individual product cards with flexbox and shadow. */
 }
 
 .product-card h3 {
     margin-top: 0.75rem;
     font-size: 1rem;
-    /* Style product titles within cards. */
 }
 
 .product-card p {
     color: #333;
     font-weight: 600;
-    /* Style product descriptions within cards. */
 }
 
 .product-card img {
@@ -238,18 +237,16 @@ nav a:hover {
     aspect-ratio: 2 / 3;
     border-radius: 10px;
     object-fit: cover;
-    /* Ensure product images are responsive and styled appropriately. */
 }
 
-.cart-icon {
-    position: relative;
-    /* Position the cart icon relative to its container. */
-}
+/* ===========================
+   CART ICON + BADGE
+   =========================== */
+.cart-icon { position: relative; }
 
 .cart-badge {
     position: absolute;
-    top: 8px;
-    right: 20px;
+    top: 8px; right: 20px;
     background-color: red;
     color: white;
     font-size: 12px;
@@ -257,15 +254,16 @@ nav a:hover {
     border-radius: 50%;
     padding: 2px 6px;
     line-height: 1;
-    /* Style the cart badge with absolute positioning. */
 }
 
+/* ===========================
+   PRODUCT DETAILS PAGE
+   =========================== */
 .product-details-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
     margin-top: 3rem;
-    /* Create a grid layout for product details. */
 }
 
 .details-image-container {
@@ -273,7 +271,6 @@ nav a:hover {
     flex-flow: column;
     align-items: center;
     gap: 10px;
-    /* Style the container for product images. */
 }
 
 #heroPic img {
@@ -282,7 +279,6 @@ nav a:hover {
     border-radius: 8px;
     object-fit: cover;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    /* Style the hero image with responsive properties. */
 }
 
 #gallery {
@@ -290,7 +286,6 @@ nav a:hover {
     justify-content: center;
     flex-wrap: wrap;
     gap: 1em;
-    /* Create a flexible gallery layout for thumbnails. */
 }
 
 #gallery img {
@@ -299,11 +294,11 @@ nav a:hover {
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
-    /* Style gallery thumbnails. */
 }
 
+#heroPic { position: relative; }
+
 .slider-btn {
-    display: none;
     position: absolute;
     top: 45%;
     background-color: rgba(0,0,0,0.5);
@@ -313,72 +308,67 @@ nav a:hover {
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;
-    /* Style slider buttons with absolute positioning. */
 }
+
+.slider-btn:hover { background-color: rgba(0,0,0,0.8); }
 
 #previous { left: 10px; }
 #next { right: 10px; }
-.details-image-container {
-    position: relative;
-    /* Position the image container relative to its content. */
-}
+
+.details-image-container { position: relative; }
 
 @media screen and (max-width: 768px) {
-    .product-details-container {
-        grid-template-columns: 1fr;
-    }
-    .slider-btn {
-        display: block;
-    }
-    #gallery {
-        display: none;
-    }
-    /* Adjust layout for smaller screens, hiding thumbnails and showing slider buttons. */
+    .product-details-container { grid-template-columns: 1fr; }
+    #gallery { display: none; }
 }
 
 .product-info {
-    display: flex;
+    display: flex;              /* Stack product info vertically */
     flex-direction: column;
-    justify-content: center;
-    gap: 40px;
-    /* Style the product information section. */
+    justify-content: center;    /* Center content vertically */
+    gap: 40px;                  /* Space between info blocks */
 }
 
+/* Price styling inside product info */
 .product-info #price {
-    color: #C29F8E;
-    /* Style the price text. */
+    color: #C29F8E;             /* Custom accent color for price */
 }
 
+/* Product description text */
 .product-info #description {
-    line-height: 1.8;
-    letter-spacing: 0.8px;
-    /* Style the product description text. */
+    line-height: 1.8;           /* Comfortable line spacing */
+    letter-spacing: 0.8px;      /* Slightly spaced letters for readability */
 }
 
+/* ===========================
+   ADD TO CART BUTTON
+   =========================== */
 .add-to-cart-btn {
-    display: inline-flex;
+    display: inline-flex;       /* Flexbox for centering text/icon */
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px 24px;
+    gap: 8px;                   /* Space between icon and text */
+    padding: 12px 24px;         /* Button padding */
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #1a1a1a;
-    border: 2px solid #1a1a1a;
-    border-radius: 4px;
+    color: #ffffff;             /* White text */
+    background-color: #1a1a1a;  /* Black background */
+    border: 2px solid #1a1a1a;  /* Matching border */
+    border-radius: 4px;         /* Slightly rounded corners */
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease;  /* Smooth hover effect */
     text-decoration: none;
-    /* Style the "Add to Cart" button with flexbox and transitions. */
+    margin-top: 20px;
 }
 
 .add-to-cart-btn:hover {
-    background-color: #35d374;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    /* Add hover effects to the "Add to Cart" button. */
+    background-color: #35d374;  /* Green hover background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
 }
 
+/* ===========================
+   CART INPUT FIELD
+   =========================== */
 .cart-input {
     padding: 12px 16px;
     font-size: 16px;
@@ -391,14 +381,15 @@ nav a:hover {
     transition: all 0.3s ease;
     min-width: 80px;
     max-width: 120px;
-    /* Style the cart input field. */
 }
 
+/* ===========================
+   CART PAGE LAYOUT
+   =========================== */
 .cart-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr 1fr; /* Items column + summary column */
     gap: 1em;
-    /* Create a grid layout for the cart section. */
 }
 
 .cart-items-column {
@@ -408,7 +399,6 @@ nav a:hover {
     border: 1px solid #333;
     border-radius: 8px;
     padding: 1em;
-    /* Style the column for cart items. */
 }
 
 .cart-summary-column {
@@ -418,16 +408,15 @@ nav a:hover {
     border: 1px solid #333;
     border-radius: 8px;
     padding: 1em;
-    /* Style the column for cart summary. */
 }
 
 .cart-summary {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    /* Style the cart summary section. */
 }
 
+/* Individual cart item */
 .cart-item {
     display: flex;
     flex-direction: row;
@@ -435,13 +424,11 @@ nav a:hover {
     padding: 1em;
     border: 1px solid #ddd;
     border-radius: 4px;
-    /* Style individual cart items. */
 }
 
 .item-thumbnail {
-    flex-shrink: 0;
+    flex-shrink: 0; /* Prevent shrinking */
     width: 150px;
-    /* Ensure thumbnails do not shrink and set a fixed width. */
 }
 
 .cart-item img {
@@ -449,99 +436,70 @@ nav a:hover {
     height: auto;
     object-fit: cover;
     border-radius: 4px;
-    /* Ensure cart item images are responsive and styled. */
 }
 
+/* Cart item details */
 .cart-item-details {
     display: flex;
     flex-direction: column;
     flex: 1;
     gap: 0.5em;
-    /* Style the details section of cart items. */
 }
 
 .cart-item-details h3 {
     margin: 0;
     font-size: 1.2em;
-    /* Style the title of cart items. */
 }
 
 .cart-item-details p {
     margin: 0.25em 0;
-    /* Style the description of cart items. */
 }
 
+/* Form inside cart item (for quantity, remove, etc.) */
 .cart-item-details form {
     display: flex;
     gap: 0.5em;
     align-items: center;
     flex-wrap: wrap;
-    /* Style the form within cart items. */
 }
 
 .cart-item-details input[type="number"] {
     width: 60px;
     padding: 0.5em;
-    /* Style the quantity input field. */
 }
 
 .cart-item-details button {
     padding: 0.5em 1em;
-    /* Style the buttons within cart items. */
 }
 
+/* ===========================
+   RESPONSIVE CART
+   =========================== */
 @media (max-width: 768px) {
-    .cart-grid {
-        grid-template-columns: 1fr;
-    }
-    .item-thumbnail {
-        width: 120px;
-    }
-    .cart-items-column, .cart-summary-column {
-        padding: 0.75em;
-    }
-    /* Adjust cart layout for tablet view. */
+    .cart-grid { grid-template-columns: 1fr; }
+    .item-thumbnail { width: 120px; }
+    .cart-items-column, .cart-summary-column { padding: 0.75em; }
 }
 
 @media (max-width: 480px) {
-    .cart-grid {
-        grid-template-columns: 1fr;
-        gap: 0.5em;
-    }
-    .cart-items-column, .cart-summary-column {
-        padding: 0.5em;
-    }
-    .cart-item {
-        flex-direction: column;
-        padding: 0.75em;
-    }
-    .item-thumbnail {
-        width: 100%;
-        max-width: 250px;
-        margin: 0 auto;
-    }
-    .cart-item-details {
-        width: 100%;
-    }
-    .cart-item-details h3 {
-        font-size: 1.1em;
-    }
-    .cart-item-details form {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .cart-item-details input[type="number"] {
-        width: 100%;
-        max-width: 100px;
-    }
+    .cart-grid { grid-template-columns: 1fr; gap: 0.5em; }
+    .cart-items-column, .cart-summary-column { padding: 0.5em; }
+    .cart-item { flex-direction: column; padding: 0.75em; }
+    .item-thumbnail { width: 100%; max-width: 250px; margin: 0 auto; }
+    .cart-item-details { width: 100%; }
+    .cart-item-details h3 { font-size: 1.1em; }
+    .cart-item-details form { flex-direction: column; align-items: flex-start; }
+    .cart-item-details input[type="number"] { width: 100%; max-width: 100px; }
     .cart-item-details button, .remove-btn {
         width: 100%;
         text-align: center;
         padding: 0.75em;
     }
-    /* Adjust cart layout for mobile view. */
 }
 
+/* ===========================
+   GENERIC BUTTONS
+   =========================== */
 .btn {
     display: inline-block;
     padding: 0.5em 1em;
@@ -551,19 +509,13 @@ nav a:hover {
     text-decoration: none;
     text-align: center;
     transition: background-color 0.3s;
-    /* Style generic buttons. */
 }
 
 .btn-update {
     background-color: burlywood;
     color: white;
-    /* Style the update button. */
 }
-
-.btn-update:hover {
-    background-color: #45a049;
-    /* Add hover effect to the update button. */
-}
+.btn-update:hover { background-color: #45a049; }
 
 .btn-remove {
     background-color: #f44336;
@@ -572,13 +524,8 @@ nav a:hover {
     font-size: 0.9em;
     margin-top: 0.5em;
     align-self: flex-start;
-    /* Style the remove button. */
 }
-
-.btn-remove:hover {
-    background-color: #da190b;
-    /* Add hover effect to the remove button. */
-}
+.btn-remove:hover { background-color: #da190b; }
 
 @media (max-width: 480px) {
     .btn-remove {
@@ -586,7 +533,6 @@ nav a:hover {
         align-self: stretch;
         padding: 0.75em;
     }
-    /* Adjust remove button for mobile view. */
 }
 
 .btn-checkout {
@@ -596,22 +542,328 @@ nav a:hover {
     padding: 1em;
     font-size: 1.1em;
     margin-top: 1em;
-    /* Style the checkout button. */
 }
+.btn-checkout:hover { background-color: #35d374; }
 
-.btn-checkout:hover {
-    background-color: #35d374;
-    /* Add hover effect to the checkout button. */
-}
-
+/* ===========================
+   FORMS
+   =========================== */
 .form-section {
   background-color:#fff3d7;
   padding:1em 1.5em 2em 1.5em;
   border-radius:0.8em;
 }
-.form-field.inline * {
-  display:inline-block;
+.form-field.inline * { display:inline-block; }
+.form-field.block * { display:block; }
+
+/* ===========================
+   CART HEADER + SUMMARY
+   =========================== */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
 }
-.form-field.block * {
-  display:block;
+
+.cart-count {
+    background: #35d374;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.quantity-input-group {
+    display: flex;
+    align-items: center;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.qty-btn {
+    background: #f5f5f5;
+    border: none;
+    padding: 0.5em 0.75em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.qty-btn:hover { background: #35d374; color: white; }
+
+.qty-input {
+    border: none;
+    text-align: center;
+    width: 50px;
+    padding: 0.5em;
+}
+
+.item-actions {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 1em;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 0;
+}
+
+.secure-checkout-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    margin-top: 1em;
+    color: #666;
+    font-size: 0.9em;
+}
+/* ===========================
+   EMPTY CART
+   =========================== */
+.empty-cart {
+    text-align: center;       /* Center the empty cart message */
+    padding: 4em 2em;         /* Add generous spacing */
+}
+
+.empty-cart-icon {
+    font-size: 4em;           /* Large icon size */
+    color: #ccc;              /* Light gray color */
+    margin-bottom: 0.5em;     /* Space below the icon */
+}
+
+/* ===========================
+   MODAL (POPUP WINDOW)
+   =========================== */
+.modal {
+    position: fixed;          /* Stays in place even when scrolling */
+    top: 0; left: 0;          /* Cover the entire screen */
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5); /* Semi-transparent black overlay */
+    display: flex;            /* Center modal content */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;            /* Ensure it appears above everything */
+}
+
+.modal-content {
+    background: white;        /* White box for modal */
+    padding: 2em;
+    border-radius: 8px;       /* Rounded corners */
+    max-width: 400px;         /* Limit width */
+    width: 90%;               /* Responsive width */
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1em;                 /* Space between buttons */
+    margin-top: 1.5em;
+}
+
+/* ===========================
+   ALERT MESSAGES
+   =========================== */
+.alert {
+    padding: 1em;
+    border-radius: 4px;
+    margin-bottom: 1em;
+}
+
+.alert-success {
+    background: #d4edda;      /* Light green background */
+    color: #155724;           /* Dark green text */
+    border: 1px solid #c3e6cb;/* Matching border */
+}
+
+/* ===========================
+   DISABLED STATE FOR OPTIONS
+   =========================== */
+.color-option.disabled,
+.size-option.disabled {
+    opacity: 0.5;             /* Faded look */
+    cursor: not-allowed;      /* Show forbidden cursor */
+    background-color: #e0e0e0;/* Gray background */
+    border: 1px solid #ccc;   /* Light gray border */
+}
+
+/* Selected option styling */
+.color-option.selected,
+.size-option.selected {
+    border: 2px solid #35d374; /* Green border for emphasis */
+    opacity: 1;                /* Fully visible */
+}
+
+/* Hover effect only if not disabled */
+.color-option:not(.disabled):hover,
+.size-option:not(.disabled):hover {
+    border-color: #35d374;     /* Green border on hover */
+    opacity: 0.9;              /* Slight fade */
+}
+
+/* ===========================
+   PRODUCT DETAILS PAGE (COLORS & SIZES)
+   =========================== */
+.color-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;       /* Circle shape */
+    border: 3px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;       /* Needed for disabled slash overlay */
+}
+
+.color-option:hover {
+    transform: scale(1.1);    /* Slight zoom on hover */
+    border-color: #888;
+}
+
+.color-option.selected {
+    border-color: #000;       /* Black border when selected */
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000; /* Ring effect */
+}
+
+.color-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;               /* Hide the radio input */
+    width: 0;
+    height: 0;
+}
+
+.size-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.size-option {
+    min-width: 50px;
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    background: white;
+    position: relative;       /* Needed for disabled slash overlay */
+}
+
+.size-option:hover {
+    border-color: #888;
+    background: #f5f5f5;
+}
+
+.size-option.selected {
+    border-color: #000;
+    background: #000;
+    color: white;
+}
+
+.size-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;               /* Hide the radio input */
+    width: 0;
+    height: 0;
+}
+
+/* ===========================
+   STOCK BADGES
+   =========================== */
+.stock-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;      /* Rounded pill shape */
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.stock-badge.in-stock {
+    background: #d4edda;      /* Green background */
+    color: #155724;           /* Dark green text */
+}
+
+.stock-badge.low-stock {
+    background: #fff3cd;      /* Yellow background */
+    color: #856404;           /* Dark yellow text */
+}
+
+.stock-badge.out-of-stock {
+    background: #f8d7da;      /* Red background */
+    color: #721c24;           /* Dark red text */
+}
+
+/* ===========================
+   PRICE DISPLAY
+   =========================== */
+.price-container {
+    margin: 15px 0;
+    font-size: 1.4em;
+    font-weight: 500;
+}
+
+.original-price {
+    text-decoration: line-through; /* Strike-through for old price */
+    color: #999;
+    margin-right: 8px;
+}
+
+.sale-price {
+    color: #e60000;           /* Bright red for sale */
+    font-weight: bold;
+}
+
+/* ===========================
+   PAGINATION CONTROLS
+   =========================== */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.pagination a,
+.pagination strong {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination strong {
+    background-color: #333;
+    color: white;
+    border-color: #333;
 }

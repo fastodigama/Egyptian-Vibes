@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $desc  = mysqli_real_escape_string($connect, $desc);
         $product_price = mysqli_real_escape_string($connect, $product_price);
 
+        // Update product
         mysqli_query($connect, "
             UPDATE product
             SET product_title = '$title',
@@ -43,6 +44,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             LIMIT 1
         ");
 
+        // =====  Handle deleted variants =====
+        // Check if any variants were marked for deletion by JavaScript
+        if (!empty($_POST['deleted_variants']) && is_array($_POST['deleted_variants'])) {
+            // Loop through each variant ID that needs to be deleted
+            foreach ($_POST['deleted_variants'] as $variant_id) {
+                // Convert to integer for safety
+                $variant_id = (int)$variant_id;
+                
+                // Delete the variant from the database
+                // Include product_id check for extra security
+                mysqli_query($connect, "
+                    DELETE FROM product_variants 
+                    WHERE variant_id = $variant_id 
+                    AND product_id = $id
+                    LIMIT 1
+                ");
+            }
+        }
+        
+
+        // Update categories
         mysqli_query($connect, "DELETE FROM product_category WHERE product_id = $id");
         foreach ($category_ids as $cat_id) {
             $cat_id = (int)$cat_id;
@@ -52,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ");
         }
 
+        // Update variants (delete all and re-insert)
         mysqli_query($connect, "DELETE FROM product_variants WHERE product_id = $id");
         foreach ($variants as $variant) {
             $size_id = !empty($variant['size_id']) ? (int)$variant['size_id'] : 20;
@@ -206,7 +229,7 @@ while ($row = mysqli_fetch_assoc($variant_result)) {
         <fieldset class="mb-4 mt-4">
             <legend class="col-form-label fw-bold">Categories (select one or more)</legend>
             <div class="row">
-                                <?php while ($category = mysqli_fetch_assoc($category_result)): ?>
+                <?php while ($category = mysqli_fetch_assoc($category_result)): ?>
                     <div class="col-md-4 mb-2">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox"
@@ -233,7 +256,5 @@ while ($row = mysqli_fetch_assoc($variant_result)) {
         </div>
     </form>
 </div>
-
-
 
 <?php include('includes/footer.php'); ?>

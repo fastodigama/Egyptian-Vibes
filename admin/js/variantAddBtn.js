@@ -43,12 +43,15 @@ document.getElementById('add-variant').addEventListener('click', function() {
 
     // Add the new row to the bottom of the container
     container.appendChild(newRow);
+    
+    // Update delete button visibility after adding a row
+    updateDeleteButtons();
 });
 
 /**
  * DELETE VARIANT FUNCTIONALITY
  * This code handles deletion of variant rows when the "Delete" button is clicked
- * Only works on product_edit.php page (product_add.php doesn't have delete buttons)
+ * Works on both product_add.php and product_edit.php pages
  */
 const variantsContainer = document.getElementById('variants-container');
 
@@ -65,8 +68,15 @@ if (variantsContainer) {
             // Find the parent row that contains this delete button
             const row = deleteButton.closest('.variant-row');
             
-            // Find the hidden input field that stores the variant's database ID
-            const variantIdInput = row.querySelector('.variant-id');
+            // Count how many rows exist before deletion
+            const remainingRows = variantsContainer.querySelectorAll('.variant-row');
+            
+            // RULE: Must keep at least 1 variant row
+            // Don't allow deletion if this is the last row
+            if (remainingRows.length === 1) {
+                alert('You must have at least one variant row. Cannot delete the last row.');
+                return; // Stop here, don't delete
+            }
             
             // Ask the user to confirm they want to delete this variant
             if (!confirm('Are you sure you want to delete this variant?')) {
@@ -74,7 +84,12 @@ if (variantsContainer) {
                 return;
             }
 
+            // Find the hidden input field that stores the variant's database ID
+            // This only exists on product_edit.php, not on product_add.php
+            const variantIdInput = row.querySelector('.variant-id');
+
             // If this variant exists in the database (has a variant_id), we need to tell the server to delete it
+            // This only applies to product_edit.php where variants are already saved in the database
             if (variantIdInput && variantIdInput.value) {
                 // Create a hidden input field to track which variants should be deleted
                 let deleteInput = document.createElement('input');
@@ -88,16 +103,36 @@ if (variantsContainer) {
 
             // Remove the row from the page immediately (visual feedback)
             row.remove();
-
-            // Check how many variant rows are left after deletion
-            const remainingRows = variantsContainer.querySelectorAll('.variant-row');
             
-            // If all rows were deleted, automatically add one empty row
-            // This ensures the user always has at least one row to work with
-            if (remainingRows.length === 0) {
-                // Programmatically click the "Add variant" button
-                document.getElementById('add-variant').click();
-            }
+            // Update delete button visibility after removing a row
+            updateDeleteButtons();
         }
     });
 }
+
+/**
+ * UPDATE DELETE BUTTON VISIBILITY
+ * Hide delete buttons when only 1 row exists
+ * Show delete buttons when 2 or more rows exist
+ */
+function updateDeleteButtons() {
+    const rows = document.querySelectorAll('.variant-row');
+    const deleteButtons = document.querySelectorAll('.delete-variant');
+    
+    // If only 1 row exists, hide all delete buttons
+    if (rows.length === 1) {
+        deleteButtons.forEach(btn => {
+            btn.style.visibility = 'hidden'; // Hide but keep space
+        });
+    } else {
+        // If 2+ rows exist, show all delete buttons
+        deleteButtons.forEach(btn => {
+            btn.style.visibility = 'visible'; // Show buttons
+        });
+    }
+}
+
+// Run once when page loads to set initial button visibility
+document.addEventListener('DOMContentLoaded', function() {
+    updateDeleteButtons();
+});

@@ -171,42 +171,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php 
                 $rows = $_POST['variants'] ?? array_fill(0, 1, []);
                 foreach ($rows as $i => $variant): ?>
-                    <div class="row mb-2 variant-row">
-                        <!-- Color -->
-                        <div class="col-md-3">
-                            <select name="variants[<?= $i ?>][color_id]" class="form-select">
-                                <option value="">Color</option>
-                                <?php foreach ($colors as $color): ?>
-                                    <option value="<?= $color['color_id'] ?>"
-                                        <?= (($variant['color_id'] ?? '') == $color['color_id']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($color['color_name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+                    <div class="row mb-2 variant-row align-items-center">
+                <!-- Color -->
+                <div class="col-md-3">
+                    <select name="variants[<?= $i ?>][color_id]" class="form-select">
+                        <option value="">Color</option>
+                        <?php foreach ($colors as $color): ?>
+                            <option value="<?= $color['color_id'] ?>"
+                                <?= (($variant['color_id'] ?? '') == $color['color_id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($color['color_name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-                        <!-- Size -->
-                        <div class="col-md-3">
-                            <select name="variants[<?= $i ?>][size_id]" class="form-select">
-                                <option value="">Size</option>
-                                <?php foreach ($sizes as $size): ?>
-                                    <option value="<?= $size['size_id'] ?>"
-                                        <?= (($variant['size_id'] ?? '') == $size['size_id']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($size['size_name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+                <!-- Size -->
+                <div class="col-md-3">
+                    <select name="variants[<?= $i ?>][size_id]" class="form-select">
+                        <option value="">Size</option>
+                        <?php foreach ($sizes as $size): ?>
+                            <option value="<?= $size['size_id'] ?>"
+                                <?= (($variant['size_id'] ?? '') == $size['size_id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($size['size_name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-                        <!-- Stock -->
-                        <div class="col-md-3">
-                            <input type="number" min="1" 
-                                name="variants[<?= $i ?>][stock]" 
-                                class="form-control"
-                                placeholder="Stock quantity"
-                                value="<?= htmlspecialchars($variant['stock'] ?? '') ?>">
-                        </div>
-                    </div>
+                <!-- Stock -->
+                <div class="col-md-3">
+                    <input type="number" min="1" 
+                        name="variants[<?= $i ?>][stock]" 
+                        class="form-control"
+                        placeholder="Stock quantity"
+                        value="<?= htmlspecialchars($variant['stock'] ?? '') ?>">
+                </div>
+
+                <!-- Delete Button -->
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-danger btn-sm delete-variant w-100" title="Delete variant">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
                 <?php endforeach; ?>
             </div>
 

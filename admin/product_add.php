@@ -1,184 +1,237 @@
 <?php
-// Include configuration file for database connection settings
 include('includes/config.php');
-
-// Include database connection file
 include('includes/database.php');
-
-// Include functions file for reusable functions
 include('includes/functions.php');
 
-// Call a security function to ensure the page is accessed securely
 secure();
-
-// Include header file for common HTML header content
 include('includes/header.php');
 
 $errors = [];
 
-// Check if the form is submitted via POST method
+// --- Handle form submission ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // --- Title ---
-    // Retrieve and trim the product title from the POST data
     $title = trim($_POST['product_title'] ?? '');
-    // Validate if the product title is empty
-    if (empty($title)) {
-        $errors[] = "Product title is required.";
-    }
+    $desc  = trim($_POST['product_desc'] ?? '');
+    $product_price = (float)($_POST['product_price'] ?? 0);
+    $variants = $_POST['variants'] ?? [];
+    $category_ids = $_POST['category_ids'] ?? [];
 
-    // --- Description ---
-    // Retrieve and trim the product description from the POST data
-    $desc = trim($_POST['product_desc'] ?? '');
-    // Validate if the product description is empty
-    if (empty($desc)) {
-        $errors[] = "Product description is required.";
-    }
-
-    // --- Price ---
-    // Retrieve and convert the product price to a float
-    $price = (float)($_POST['product_price'] ?? 0);
-    // Validate if the product price is greater than 0
-    if ($price <= 0) {
-        $errors[] = "Price must be greater than 0.";
-    }
-
-    // --- Size ---
-    // Retrieve the product size from the POST data
-    $size = $_POST['product_size'] ?? '';
-    // Define allowed sizes
-    $allowed_sizes = ['S','M','L','XL','XXL'];
-    // Validate if the product size is in the allowed sizes
-    if (!in_array($size, $allowed_sizes)) {
-        $errors[] = "Invalid product size.";
-    }
-
-    // --- Stock ---
-    // Retrieve and convert the product stock to an integer
-    $stock = (int)($_POST['product_stock'] ?? -1);
-    // Validate if the product stock is 0 or greater
-    if ($stock < 0) {
-        $errors[] = "Stock must be 0 or greater.";
-    }
-
-    // --- Categories ---
-    // Validate if at least one category is selected
-    if (empty($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
-        $errors[] = "Please select at least one category.";
-    }
-
-    // --- If no errors, insert into DB ---
-    // If no errors, prepare the data for database insertion
-    if (empty($errors)) {
-        // Escape the data to prevent SQL injection
-        $title = mysqli_real_escape_string($connect, $title);
-        $desc  = mysqli_real_escape_string($connect, $desc);
-        $sku   = mysqli_real_escape_string($connect, generateSku($title));
-        $size  = mysqli_real_escape_string($connect, $size);
-
-        // Prepare the SQL query to insert the new product
-        $query = "INSERT INTO product (product_title, product_desc, product_price, product_sku, product_size, product_stock)
-                  VALUES ('$title', '$desc', $price, '$sku', '$size', $stock)";
-        // Execute the query
-        mysqli_query($connect, $query);
-
-        // Retrieve the ID of the newly inserted product
-        $product_id = mysqli_insert_id($connect);
-
-        // Insert the product into the product_category table for each selected category
-        foreach ($_POST['category_ids'] as $cat_id) {
-            $cat_id = (int)$cat_id;
-            $query = "INSERT INTO product_category(product_id, category_id) VALUES ($product_id, $cat_id)";
-            mysqli_query($connect, $query);
+    // --- Validation ---
+// --- Validation ---
+        if (empty($title)) $errors[] = "Product title is required.";
+        if (empty($desc))  $errors[] = "Product description is required.";
+        if ($product_price <= 0) $errors[] = "Product price must be greater than 0.";
+        if (empty($category_ids) || !is_array($category_ids)) {
+            $errors[] = "Please select at least one category.";
         }
 
-        // Set a success message
+        // --- Variant validation ---
+        $hasVariant = false;
+
+        foreach ($variants as $index => $variant) {
+            $hasColor = !empty($variant['color_id']);
+            $hasSize  = !empty($variant['size_id']);
+            $stock    = isset($variant['stock']) ? (int)$variant['stock'] : 0;
+
+            // If row has size or stock, it must also have a color
+            if (($hasSize || $stock > 0) && !$hasColor) {
+                $errors[] = "Variant row " . ($index + 1) . " has size/stock but no color selected.";
+            }
+
+            // If row is filled (color or size chosen), then stock must be > 0
+            if ($hasColor || $hasSize) {
+                $hasVariant = true; // at least one variant exists
+
+                if ($stock <= 0) {
+                    $errors[] = "Variant row " . ($index + 1) . " must have stock greater than 0.";
+                }
+            }
+        }
+
+        // If no variant rows were filled at all
+        if (!$hasVariant) {
+            $errors[] = "Please add at least one product variant.";
+        }
+
+
+    // --- If no errors, insert into DB ---
+    if (empty($errors)) {
+        $title = mysqli_real_escape_string($connect, $title);
+        $desc  = mysqli_real_escape_string($connect, $desc);
+        $product_price = mysqli_real_escape_string($connect, $product_price);
+
+        // Insert product
+        mysqli_query($connect, "
+            INSERT INTO product (product_title, product_desc)
+            VALUES ('$title', '$desc')
+        ");
+        $product_id = mysqli_insert_id($connect);
+
+        // Insert category links
+        foreach ($category_ids as $cat_id) {
+            $cat_id = (int)$cat_id;
+            mysqli_query($connect, "
+                INSERT INTO product_category (product_id, category_id)
+                VALUES ($product_id, $cat_id)
+            ");
+        }
+
+        // Insert variants
+        foreach ($variants as $variant) {
+            $color_id = !empty($variant['color_id']) ? (int)$variant['color_id'] : null;
+            $size_id  = !empty($variant['size_id']) ? (int)$variant['size_id'] : 20; // fallback
+            $stock    = isset($variant['stock']) ? (int)$variant['stock'] : 0;
+
+            // Skip completely empty rows
+            if (!$color_id && !$size_id && $stock <= 0) {
+                continue;
+            }
+
+            $price = $product_price;
+            $sku = generateSkuWithIds($title, $size_id, $color_id);
+            $sku = mysqli_real_escape_string($connect, $sku);
+
+            $color_sql = $color_id !== null ? $color_id : "NULL";
+            $size_sql  = $size_id !== null ? $size_id : "NULL";
+
+            mysqli_query($connect, "
+                INSERT INTO product_variants (
+                    product_id, size_id, color_id, sku, price, stock_qty, available
+                ) VALUES (
+                    $product_id, $size_sql, $color_sql, '$sku', $price, $stock, 'Yes'
+                )
+            ");
+        }
+
+
         set_message('A new product has been added');
-        // Redirect to the product list page
         header('Location: product_list.php');
-        // Stop further script execution
         die();
     }
 }
 
-    // Fetch categories
-    // Query the database to retrieve all categories, ordered by category name
-    $category_query = "SELECT * FROM category ORDER BY category_name ASC";
-    $category_result = mysqli_query($connect, $category_query);
-?>
+        // --- Fetch sizes, colors, categories for form ---
+        $size_result     = mysqli_query($connect, "SELECT * FROM product_size ORDER BY size_id ASC");
+        $color_result    = mysqli_query($connect, "SELECT * FROM product_color ORDER BY color_name ASC");
+        $category_result = mysqli_query($connect, "SELECT * FROM category ORDER BY category_name ASC");
 
-<!-- HTML for the product addition form -->
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Add Product</h2>
-        <!-- Button to navigate back to the product list page -->
-        <a href="product_list.php" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Back to List
-        </a>
-    </div>
+        // Store arrays for dropdowns
+        $sizes  = [];
+        $colors = [];
+        mysqli_data_seek($size_result, 0);
+        while ($s = mysqli_fetch_assoc($size_result)) $sizes[] = $s;
+        mysqli_data_seek($color_result, 0);
+        while ($c = mysqli_fetch_assoc($color_result)) $colors[] = $c;
+        ?>
 
-    <!-- Display input errors if any -->
-    <?php if (!empty($errors)): ?>
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                <?php foreach ($errors as $error): ?>
-                    <li><?= htmlspecialchars($error) ?></li>
+        <div class="container mt-5">
+            <h2 class="mb-4">Add Product</h2>
+
+            <?php if (!empty($errors)): ?>
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        <?php foreach ($errors as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <form action="" method="POST" class="card shadow-sm p-4">
+                <!-- Title -->
+                <div class="mb-3 w-50">
+                    <label for="product_title" class="form-label">Title</label>
+                    <input type="text" id="product_title" name="product_title" 
+                        class="form-control"
+                        placeholder="e.g. Egyptian Cotton T-Shirt"
+                        value="<?= htmlspecialchars($_POST['product_title'] ?? '') ?>">
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="product_desc" class="form-label">Description</label>
+                    <textarea id="product_desc" name="product_desc" 
+                            class="form-control" rows="4"
+                            placeholder="What customers will read before buying"><?= htmlspecialchars($_POST['product_desc'] ?? '') ?></textarea>
+                </div>
+
+        <!-- Product Price -->
+        <div class="mb-3 w-25">
+            <label for="product_price" class="form-label">Default Product Price (CAD)</label>
+            <input type="number" step="0.01" id="product_price" name="product_price" 
+                   class="form-control"
+                   placeholder="e.g. 29.99"
+                   value="<?= htmlspecialchars($_POST['product_price'] ?? '') ?>">
+        </div>
+
+        <!-- Variants -->
+       <h5 class="mt-4">Variants (Color + Size + Stock)</h5>
+
+            <div id="variants-container">
+                <?php 
+                $rows = $_POST['variants'] ?? array_fill(0, 1, []);
+                foreach ($rows as $i => $variant): ?>
+                    <div class="row mb-2 variant-row">
+                        <!-- Color -->
+                        <div class="col-md-3">
+                            <select name="variants[<?= $i ?>][color_id]" class="form-select">
+                                <option value="">Color</option>
+                                <?php foreach ($colors as $color): ?>
+                                    <option value="<?= $color['color_id'] ?>"
+                                        <?= (($variant['color_id'] ?? '') == $color['color_id']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($color['color_name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Size -->
+                        <div class="col-md-3">
+                            <select name="variants[<?= $i ?>][size_id]" class="form-select">
+                                <option value="">Size</option>
+                                <?php foreach ($sizes as $size): ?>
+                                    <option value="<?= $size['size_id'] ?>"
+                                        <?= (($variant['size_id'] ?? '') == $size['size_id']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($size['size_name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="col-md-3">
+                            <input type="number" min="1" 
+                                name="variants[<?= $i ?>][stock]" 
+                                class="form-control"
+                                placeholder="Stock quantity"
+                                value="<?= htmlspecialchars($variant['stock'] ?? '') ?>">
+                        </div>
+                    </div>
                 <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-
-    <!-- Form for adding a new product -->
-    <form action="" method="POST" class="card shadow-sm p-4">
-        <div class="mb-3">
-            <label for="product_title" class="form-label">Title</label>
-            <input type="text" id="product_title" name="product_title" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="product_desc" class="form-label">Description</label>
-            <textarea id="product_desc" name="product_desc" class="form-control" rows="4"></textarea>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label for="product_price" class="form-label">Price (CAD)</label>
-                <input type="number" step="0.01" id="product_price" name="product_price" class="form-control" >
             </div>
 
-            <div class="col-md-4 mb-3">
-                <label for="product_size" class="form-label">Size</label>
-                <select id="product_size" name="product_size" class="form-select" >
-                    <?php
-                    // Define the allowed sizes
-                    $values = array('S', 'M', 'L', 'XL', 'XXL');
-                    // Generate options for the size dropdown
-                    foreach ($values as $value) {
-                        echo '<option value="'.htmlspecialchars($value).'">'.$value.'</option>';
-                    }
-                    ?>
-                </select>
-            </div>
+            <!-- Add Button -->
+             <div class="text-start">
+                     <button type="button" id="add-variant" class="btn btn-outline-primary mt-2 w-auto">
+                + Add another variant
+            </button>                   
+             </div>
+            
 
-            <div class="col-md-4 mb-3">
-                <label for="product_stock" class="form-label">Stock</label>
-                <input type="number" id="product_stock" name="product_stock" class="form-control" >
-            </div>
-        </div>
-
-        <fieldset class="mb-4">
+        <!-- Categories -->
+        <fieldset class="mb-4 mt-4">
             <legend class="col-form-label fw-bold">Categories (select one or more)</legend>
             <div class="row">
-                <!-- Generate checkboxes for each category -->
                 <?php while ($category = mysqli_fetch_assoc($category_result)): ?>
                     <div class="col-md-4 mb-2">
                         <div class="form-check">
-                            <input class="form-check-input"
-                                   type="checkbox"
+                            <input class="form-check-input" type="checkbox"
+                                   id="cat_<?= $category['category_id'] ?>"
                                    name="category_ids[]"
-                                   id="cat_<?php echo $category['category_id']; ?>"
-                                   value="<?php echo $category['category_id']; ?>">
-                            <label class="form-check-label" for="cat_<?php echo $category['category_id']; ?>">
-                                <?php echo htmlspecialchars($category['category_name']); ?>
+                                   value="<?= $category['category_id'] ?>"
+                                   <?= in_array($category['category_id'], $_POST['category_ids'] ?? []) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="cat_<?= $category['category_id'] ?>">
+                                <?= htmlspecialchars($category['category_name']) ?>
                             </label>
                         </div>
                     </div>
@@ -186,12 +239,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </fieldset>
 
+        <!-- Buttons -->
         <div class="d-flex justify-content-end gap-2">
-            <!-- Submit button to add the product -->
             <button type="submit" class="btn btn-success">
                 <i class="bi bi-check-circle"></i> Add Product
             </button>
-            <!-- Cancel button to navigate back to the product list -->
             <a href="product_list.php" class="btn btn-outline-secondary">
                 <i class="bi bi-x-circle"></i> Cancel
             </a>

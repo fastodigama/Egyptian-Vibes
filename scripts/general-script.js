@@ -16,6 +16,8 @@ function pageReady() {
             thumbs[i].addEventListener("click", function () {
                 // When a thumbnail is clicked, change the main image source to the clicked thumbnail's source
                 mainImg.src = this.src;
+                // Update current index to match clicked thumbnail
+                current = i;
             });
         }
     }
@@ -23,8 +25,8 @@ function pageReady() {
     // Call the function to set up the gallery image click events
     galleryImgs();
 
-    // Function to handle mobile slider logic
-    function mobileSlider() {
+    // Function to handle slider logic (works on all screen sizes)
+    function imageSlider() {
         // Select the next and previous buttons by their IDs
         const nextButton = document.getElementById("next");
         const previousButton = document.getElementById("previous");
@@ -60,11 +62,9 @@ function pageReady() {
         });
     }
 
-    // Check if the window width is 768 pixels or less to activate the mobile slider
-    if (window.innerWidth <= 768) {
-        console.log("Mobile slider activated");
-        mobileSlider();
-    }
+    // Call the slider function for all screen sizes
+    console.log("Image slider activated");
+    imageSlider();
 }
 
 // Function to show the sidebar

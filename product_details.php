@@ -63,7 +63,15 @@ if (isset($_GET['id'])) {
         if ($variant['size_name'] && !in_array($variant['size_name'], $sizes)) {
             $sizes[] = $variant['size_name'];
         }
-    }
+            }
+            // Sort sizes in logical order
+        $sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+        usort($sizes, function($a, $b) use ($sizeOrder) {
+            $posA = array_search($a, $sizeOrder);
+            $posB = array_search($b, $sizeOrder);
+            return $posA - $posB;
+});
+
 }
 ?>
 

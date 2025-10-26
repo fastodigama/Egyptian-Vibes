@@ -49,8 +49,15 @@ secure();
 
     <!-- Option to manage colors -->
     <div class="col-md-3 col-sm-6">
-      <a href="color_add.php" class="btn btn-outline-dark w-100 py-3" aria-label="Manage Users">
-        <i class="bi bi-people me-2"></i> Manage Product Colours
+      <a href="color_list.php" class="btn btn-outline-warning w-100 py-3" aria-label="Manage Product Colors">
+        <i class="bi bi-palette me-2"></i> Manage Product Colours
+      </a>
+    </div>
+
+      <!-- Option to manage Sizes -->
+    <div class="col-md-3 col-sm-6">
+      <a href="size_list.php" class="btn btn-outline-info w-100 py-3" aria-label="Manage Product Sizes">
+        <i class="bi bi-rulers me-2"></i> Manage Product Sizes
       </a>
     </div>
   </div>

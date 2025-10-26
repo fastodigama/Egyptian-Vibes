@@ -34,14 +34,14 @@ include('frontend_includes/config.php');
         <!-- Category: Clothing -->
         <div class="flex-item">
             <!-- Link to clothing page -->
-            <a href="clothing.php"><img src="" alt=""></a>
+            <a href="clothing.php"><img src="IMAGES/clothing.webp" alt=""></a>
             <h3><a href="clothing.php">Clothing</a></h3>
         </div>
         
         <!-- Category: Accessories -->
         <div class="flex-item">
             <!-- Link to accessories page -->
-            <a href="accessories.php"><img src="" alt=""></a>
+            <a href="accessories.php"><img src="IMAGES/acc.webp" alt=""></a>
             <h3><a href="accessories.php">Accessories</a></h3>
         </div>
 

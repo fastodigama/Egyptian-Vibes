@@ -35,7 +35,7 @@
                 <li class="hideOnMobile"><a href="accessories.php">Accessories</a></li>
                 <li class="hideOnMobile"><a href="contact.php">Contact</a></li>
                 <li class="hideOnMobile"><a href="about.php">About</a></li>
-                <li class="hideOnMobile"><a href="login.html">Login</a></li>
+                <li class="hideOnMobile"><a href="customer_login.php">Login</a></li>
                 <li class="menu-button" onclick="showSidebar()">
                     <a href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 0 960 960" width="26px" fill="#1f1f1f">
@@ -57,7 +57,7 @@
                 <li><a href="accessories.php">Accessories</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="about.php">About</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="customer_login.php">Login</a></li>
             </ul>
         </nav>
         <nav id="cart-nav">

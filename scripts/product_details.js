@@ -101,7 +101,7 @@ function initializeProductVariants(variants, productId) {
             return colorMatch && sizeMatch;
         });
 
-        // ✅ Flexible condition: only require what exists
+        // Flexible condition: only require what exists
         if (matchingVariant &&
             (!colorOptions.length || selectedColor) &&
             (!sizeOptions.length || selectedSize)) {

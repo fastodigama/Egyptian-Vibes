@@ -35,7 +35,13 @@
                 <li class="hideOnMobile"><a href="accessories.php">Accessories</a></li>
                 <li class="hideOnMobile"><a href="contact.php">Contact</a></li>
                 <li class="hideOnMobile"><a href="about.php">About</a></li>
+                <?php if(isset($_SESSION['id'])): ?>
+                <li class="hideOnMobile"><a href="account.php">My Account</a></li>
+                <li class="hideOnMobile"><a href="customer_logout.php">Logout</a></li>
+                <?php else: ?>
                 <li class="hideOnMobile"><a href="customer_login.php">Login</a></li>
+                <li class="hideOnMobile"><a href="customer_login.php">Register</a></li>
+                <?php endif; ?>
                 <li class="menu-button" onclick="showSidebar()">
                     <a href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 0 960 960" width="26px" fill="#1f1f1f">
@@ -57,7 +63,13 @@
                 <li><a href="accessories.php">Accessories</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="about.php">About</a></li>
+               <?php if(isset($_SESSION['id'])): ?>
+                <li><a href="account.php">My Account</a></li>
+                <li><a href="customer_logout.php">Logout</a></li>
+                <?php else: ?>
                 <li><a href="customer_login.php">Login</a></li>
+                <li><a href="register.php">Register</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
         <nav id="cart-nav">

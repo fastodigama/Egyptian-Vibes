@@ -2,9 +2,10 @@
 
 include('includes/database.php');
 
-function secure(){
-    if(!isset($_SESSION['id'])){
-        set_message("You must first login to view this page ");
+function secure() {
+    // Check if user is not logged in OR not an admin
+    if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'admin') {
+        set_message("You must first login as admin to view this page.");
         header('Location: /egyptian-vibes');
         die();
     }

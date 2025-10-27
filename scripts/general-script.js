@@ -1,5 +1,6 @@
 // This function is called when the window has fully loaded
-window.onload = pageReady;
+document.addEventListener("DOMContentLoaded", pageReady);
+
 
 function pageReady() {
     // Select the main image element by its ID

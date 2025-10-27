@@ -4,7 +4,7 @@ include('includes/config.php');
 include('includes/database.php');
 include('includes/functions.php');
 
-secure(); // your security function
+secure(); // security function
 
 include('includes/header.php');
 

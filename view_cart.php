@@ -99,7 +99,7 @@ $taxRate = 0.13;
                     <div class="quantity-control">
                         <label for="qty-<?php echo $id; ?>">Qty:</label>
                         <div class="quantity-input-group">
-                            <button type="button" class="qty-btn qty-decrease" data-id="<?php echo $id; ?>">
+                            <button type="button" class="qty-btn qty-decrease" data-id="<?php echo $id; ?>" aria-label="Decrease quantity">
                                 <i class="fa-solid fa-minus"></i>
                             </button>
                             <input type="number"
@@ -109,8 +109,8 @@ $taxRate = 0.13;
                                    value="<?php echo $item['quantity']; ?>"
                                    min="1"
                                    max="99">
-                            <button type="button" class="qty-btn qty-increase" data-id="<?php echo $id; ?>">
-                                <i class="fa-solid fa-plus"></i>
+                            <button type="button" class="qty-btn qty-increase" data-id="<?php echo $id; ?>" aria-label="Increase quantity">
+                            <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>

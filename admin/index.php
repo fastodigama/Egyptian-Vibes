@@ -27,20 +27,21 @@ if(isset($_POST['email'])){
     $result = mysqli_query($connect, $query);
 
     // Check if a user is found
-    if(mysqli_num_rows($result)){
-        // Retrieve the user information
-        $record = mysqli_fetch_assoc($result);
-        // Set session variables for the logged-in user
+if(mysqli_num_rows($result)){
+    $record = mysqli_fetch_assoc($result);
+
+    // Check if the user is an admin
+    if ($record['role'] === 'admin') {
         $_SESSION['id'] = $record['id'];
         $_SESSION['email'] = $record['email'];
-        // Redirect to the dashboard page
+        $_SESSION['role'] = 'admin'; // Set role in session
+
         header('Location: dashboard.php');
-        // Stop further script execution
         die();
     } else {
-        // Display an error message if the credentials are invalid or the account is inactive
-        echo '<div class="alert alert-danger mt-3" role="alert">Invalid credentials or inactive account.</div>';
+        echo '<div class="alert alert-danger mt-3" role="alert">Access denied. Admins only.</div>';
     }
+}
 }
 ?>
 

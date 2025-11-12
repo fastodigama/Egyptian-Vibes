@@ -1,4 +1,11 @@
 <?php
+// Load Composer autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Load environment variables from .env file
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 include('admin/includes/database.php');
 include('frontend_includes/config.php');
 include('frontend_includes/functions.php');
@@ -6,7 +13,7 @@ include('frontend_includes/functions.php');
 customer_secure();
 
 // Stripe Secret Key (use environment variable in production!)
-$stripeSecretKey = getenv('STRIPE_SECRET_KEY') ?: '';
+$stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'] ?? getenv('STRIPE_SECRET_KEY') ?? '';
 if (empty($stripeSecretKey)) {
     die('Stripe secret key is not configured. Please set the STRIPE_SECRET_KEY environment variable.');
 }

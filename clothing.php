@@ -37,25 +37,27 @@ if ($page > $total_pages) { $page = $total_pages; }
 $offset = ($page - 1) * $results_per_page;
 
 // ----------------------
-// 4. Main product query
+// 4. Main product query with stock check
 // ----------------------
-$query = "SELECT p.*, MIN(pv.price) AS price,
-                (
+$query = "SELECT p.*, 
+                 MIN(pv.price) AS price,
+                 SUM(pv.stock_qty) AS total_stock,
+                 (
                     SELECT pp.photo
                     FROM product_photos pp
                     WHERE pp.product_id = p.product_id
                     ORDER BY pp.photo_id DESC
                     LIMIT 1
-                ) AS thumbnail
-            FROM product p
-            INNER JOIN product_category pc ON p.product_id = pc.product_id
-            INNER JOIN category c ON pc.category_id = c.category_id
-            INNER JOIN product_variants pv ON p.product_id = pv.product_id
-                AND pv.price > 0
-            WHERE c.category_name = 'Clothing'
-            GROUP BY p.product_id
-            ORDER BY p.dateAdded DESC
-            LIMIT $results_per_page OFFSET $offset";
+                 ) AS thumbnail
+          FROM product p
+          INNER JOIN product_category pc ON p.product_id = pc.product_id
+          INNER JOIN category c ON pc.category_id = c.category_id
+          INNER JOIN product_variants pv ON p.product_id = pv.product_id
+              AND pv.price > 0
+          WHERE c.category_name = 'Clothing'
+          GROUP BY p.product_id
+          ORDER BY p.dateAdded DESC
+          LIMIT $results_per_page OFFSET $offset";
 
 $result = mysqli_query($connect, $query);
 ?>
@@ -68,7 +70,12 @@ $result = mysqli_query($connect, $query);
         <?php while($product = mysqli_fetch_assoc($result)): ?>
             <div class="product-card">
                 <a href="product_details.php?id=<?php echo $product['product_id']; ?>">
-                    <img class="img" src="<?php echo $product['thumbnail']; ?>" alt="">
+                    <div class="product-image-wrapper">
+                        <img class="img" src="<?php echo $product['thumbnail']; ?>" alt="">
+                        <?php if ($product['total_stock'] <= 0): ?>
+                            <span class="out-of-stock-badge">Out of Stock</span>
+                        <?php endif; ?>
+                    </div>
                 </a>
                 <h3><?php echo $product['product_title']; ?></h3>
                 <p>$ <?php echo $product['price']; ?> CAD</p>

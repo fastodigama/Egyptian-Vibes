@@ -175,7 +175,7 @@ foreach ($items as $item) {
 mysqli_query($connect, "DELETE FROM cart_items WHERE cart_id = $cartId");
 
 // Success message
-$_SESSION['success'] = 'Order placed successfully! Order #' . $orderId;
+/* $_SESSION['success'] = 'Order placed successfully! Order #' . $orderId; */
 
 // Redirect to order confirmation
 header('Location: order_confirmation.php?order_id=' . $orderId);

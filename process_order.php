@@ -6,7 +6,10 @@ include('frontend_includes/functions.php');
 customer_secure();
 
 // Stripe Secret Key (use environment variable in production!)
-$stripeSecretKey = ''; // Replace with your actual secret key
+$stripeSecretKey = getenv('STRIPE_SECRET_KEY') ?: '';
+if (empty($stripeSecretKey)) {
+    die('Stripe secret key is not configured. Please set the STRIPE_SECRET_KEY environment variable.');
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: checkout.php');

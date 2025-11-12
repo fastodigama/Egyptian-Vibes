@@ -5,7 +5,7 @@
 // ================================================
 
 // ---------------------------
-// 1️⃣ Include dependencies
+// Include dependencies
 // ---------------------------
 
 // Connect to the database (provides $connect for queries)
@@ -15,26 +15,26 @@ include('admin/includes/database.php');
 include('frontend_includes/header.php');
 
 // ---------------------------
-// 2️⃣ Check for a product ID in the URL
+// Check for a product ID in the URL
 // ---------------------------
 if (isset($_GET['id'])) {
     $id = (int) $_GET['id']; // Always cast to integer to prevent SQL injection
 
     // ---------------------------
-    // 3️⃣ Fetch product information
+    // Fetch product information
     // ---------------------------
     $productQuery = "SELECT * FROM product WHERE product_id = $id";
     $productResult = mysqli_query($connect, $productQuery);
     $product = mysqli_fetch_assoc($productResult);
 
     // ---------------------------
-    // 4️⃣ Fetch product photos
+    // Fetch product photos
     // ---------------------------
     $photosQuery = "SELECT photo FROM product_photos WHERE product_id = $id";
     $photosResult = mysqli_query($connect, $photosQuery);
 
     // ---------------------------
-    // 5️⃣ Fetch product variants (color + size + stock info)
+    // Fetch product variants (color + size + stock info)
     // ---------------------------
     $variantsQuery = "
         SELECT pv.*, pc.color_name, pc.hex_code, ps.size_name 
@@ -82,7 +82,7 @@ if (isset($_GET['id'])) {
 
     <?php 
     // ---------------------------
-    // 6️⃣ Prepare photo array for slider/gallery
+    // Prepare photo array for slider/gallery
     // ---------------------------
     $photos = [];
     while ($record = mysqli_fetch_assoc($photosResult)) {

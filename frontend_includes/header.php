@@ -1,17 +1,32 @@
 <?php
-    // Include the configuration file
-    include('frontend_includes/config.php');
+// Include the configuration file
+include('frontend_includes/config.php');
+include('admin/includes/database.php'); 
 
-    // Initialize cart quantity
-    $cartQty = 0;
+// Initialize cart quantity
+$cartQty = 0;
 
-    // Check if the cart session is set
-    if(isset($_SESSION['cart'])) {
-        // Calculate the total quantity of items in the cart
-        foreach($_SESSION['cart'] as $item) {
+if (!isset($_SESSION['id'])) {
+    // Guest user → count items in session
+    if (isset($_SESSION['cart'])) {
+        foreach ($_SESSION['cart'] as $item) {
             $cartQty += $item['quantity'];
         }
     }
+} else {
+    // Logged-in user → count items in DB
+    $userId = (int) $_SESSION['id'];
+    $q = "SELECT cart_id FROM cart WHERE user_id = $userId LIMIT 1";
+    $res = mysqli_query($connect, $q);
+    if ($row = mysqli_fetch_assoc($res)) {
+        $cartId = (int) $row['cart_id'];
+        $qItems = "SELECT SUM(quantity) AS totalQty FROM cart_items WHERE cart_id = $cartId";
+        $resItems = mysqli_query($connect, $qItems);
+        if ($rowItems = mysqli_fetch_assoc($resItems)) {
+            $cartQty = (int) $rowItems['totalQty'];
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,11 +51,11 @@
                 <li class="hideOnMobile"><a href="contact.php">Contact</a></li>
                 <li class="hideOnMobile"><a href="about.php">About</a></li>
                 <?php if(isset($_SESSION['id'])): ?>
-                <li class="hideOnMobile"><a href="account.php">My Account</a></li>
-                <li class="hideOnMobile"><a href="customer_logout.php">Logout</a></li>
+                    <li class="hideOnMobile"><a href="account.php">My Account</a></li>
+                    <li class="hideOnMobile"><a href="customer_logout.php">Logout</a></li>
                 <?php else: ?>
-                <li class="hideOnMobile"><a href="customer_login.php">Login</a></li>
-                <li class="hideOnMobile"><a href="customer_login.php">Register</a></li>
+                    <li class="hideOnMobile"><a href="customer_login.php">Login</a></li>
+                    <li class="hideOnMobile"><a href="register.php">Register</a></li>
                 <?php endif; ?>
                 <li class="menu-button" onclick="showSidebar()">
                     <a href="#">
@@ -63,12 +78,12 @@
                 <li><a href="accessories.php">Accessories</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="about.php">About</a></li>
-               <?php if(isset($_SESSION['id'])): ?>
-                <li><a href="account.php">My Account</a></li>
-                <li><a href="customer_logout.php">Logout</a></li>
+                <?php if(isset($_SESSION['id'])): ?>
+                    <li><a href="account.php">My Account</a></li>
+                    <li><a href="customer_logout.php">Logout</a></li>
                 <?php else: ?>
-                <li><a href="customer_login.php">Login</a></li>
-                <li><a href="register.php">Register</a></li>
+                    <li><a href="customer_login.php">Login</a></li>
+                    <li><a href="register.php">Register</a></li>
                 <?php endif; ?>
             </ul>
         </nav>

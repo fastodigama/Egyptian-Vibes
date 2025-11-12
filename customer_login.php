@@ -10,6 +10,7 @@ include('frontend_includes/header.php');
 // Initialize variables
 $errors = [];
 $success = '';
+$email = '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -46,11 +47,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
 
+                // --- MIGRATE GUEST CART TO DB ---
+                if (!empty($_SESSION['cart'])) {
+                    $userId = (int) $_SESSION['id'];
+
+                    // Ensure user has a cart
+                    $q = "SELECT cart_id FROM cart WHERE user_id = $userId LIMIT 1";
+                    $res = mysqli_query($connect, $q);
+                    if ($row = mysqli_fetch_assoc($res)) {
+                        $cartId = (int) $row['cart_id'];
+                    } else {
+                        mysqli_query($connect, "INSERT INTO cart (user_id) VALUES ($userId)");
+                        $cartId = mysqli_insert_id($connect);
+                    }
+
+                    // Move session items into DB
+                    foreach ($_SESSION['cart'] as $variantId => $item) {
+                        $qty   = (int) $item['quantity'];
+                        $price = (float) $item['price'];
+                        mysqli_query($connect, "INSERT INTO cart_items (cart_id, variant_id, quantity, price_at_add_time)
+                                                VALUES ($cartId, $variantId, $qty, $price)");
+                    }
+
+                    // Clear session cart
+                    unset($_SESSION['cart']);
+                }
+
                 // Redirect to original page or default
                 $redirect = $_SESSION['redirect_after_login'] ?? 'index.php';
                 unset($_SESSION['redirect_after_login']);
                 header("Location: $redirect");
-                die();
+                exit;
             } else {
                 $errors[] = "Incorrect password.";
             }
@@ -90,20 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="email" id="email" name="email"
                    value="<?php echo htmlspecialchars($email ?? ''); ?>"
                    class="cart-input form-input-full"
-                   required
-                   aria-required="true"
-                   aria-describedby="email-error">
-            <span id="email-error" class="error-message"></span>
+                   required>
         </div>
 
         <div class="form-field block">
             <label for="password">Password *</label>
             <input type="password" id="password" name="password"
                    class="cart-input form-input-full"
-                   required
-                   aria-required="true"
-                   aria-describedby="password-error">
-            <span id="password-error" class="error-message"></span>
+                   required>
         </div>
 
         <button type="submit" class="btn-checkout">Login</button>
